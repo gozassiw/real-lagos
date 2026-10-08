@@ -1,0 +1,5 @@
+node_modules
+dist
+osm-raw
+*.local
+.DS_Store

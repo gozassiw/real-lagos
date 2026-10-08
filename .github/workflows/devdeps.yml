@@ -1,0 +1,41 @@
+# Resolves the npm dependency tree on a GitHub runner and publishes the lockfile plus a
+# packed node_modules snapshot on the `devdeps` branch, for development sandboxes that
+# cannot reach the npm registry directly. Not used by the deploy pipeline.
+name: Dev dependency snapshot
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  snapshot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install
+        run: |
+          if [ -f package-lock.json ]; then npm ci; else npm install || npm install --legacy-peer-deps; fi
+          npm ls --depth=0 || true
+      - name: Pack
+        run: |
+          mkdir -p snap
+          cp package.json package-lock.json snap/
+          npm ls --depth=0 > snap/versions.txt || true
+          XZ_OPT=-6T0 tar -cJf node_modules.tar.xz node_modules
+          split -b 45m -d -a 2 node_modules.tar.xz snap/node_modules.tar.xz.part
+          ls -la snap
+      - name: Push to devdeps branch
+        run: |
+          cd snap
+          git init -b devdeps
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "node_modules snapshot $(date -u +%Y-%m-%dT%H:%MZ)"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" HEAD:devdeps

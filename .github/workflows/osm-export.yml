@@ -1,0 +1,49 @@
+# One-off / occasional OpenStreetMap export for the Lagos map.
+# Runs scripts/fetch-osm.mjs against Overpass and stores the raw gzipped extracts on the
+# `osm-raw` branch. The game itself never queries Overpass — scripts/build_map.py turns these
+# extracts into the small chunked assets in public/data/lagos that ship with the game.
+name: OSM export (dev data)
+
+on:
+  workflow_dispatch:
+    inputs:
+      only:
+        description: "Areas (core,ikeja) — blank for all"
+        required: false
+        default: ""
+      layers:
+        description: "Layers (roads,rail,water,landuse,barriers,pois,buildings,places) — blank for all"
+        required: false
+        default: ""
+
+permissions:
+  contents: write
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Start from the existing raw export (if any)
+        run: |
+          git fetch origin osm-raw:osm-raw 2>/dev/null && git worktree add osm-raw osm-raw || mkdir -p osm-raw
+      - name: Fetch from Overpass
+        run: |
+          ARGS="--out osm-raw"
+          if [ -n "${{ inputs.only }}" ]; then ARGS="$ARGS --only ${{ inputs.only }}"; fi
+          if [ -n "${{ inputs.layers }}" ]; then ARGS="$ARGS --layers ${{ inputs.layers }}"; fi
+          node scripts/fetch-osm.mjs $ARGS
+          ls -la osm-raw
+      - name: Push to osm-raw branch
+        run: |
+          cd osm-raw
+          if [ ! -d .git ] && [ ! -f .git ]; then git init -b osm-raw; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "OSM export $(date -u +%Y-%m-%dT%H:%MZ) — © OpenStreetMap contributors (ODbL)" || echo "nothing to commit"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" HEAD:osm-raw
