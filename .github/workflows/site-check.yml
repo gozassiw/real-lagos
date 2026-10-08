@@ -1,0 +1,49 @@
+# Check the live site from outside and run the mobile smoke test against it.
+name: Live site check
+
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: URL to test
+        required: true
+        default: https://gozassiw.github.io/real-lagos/
+      smoke:
+        description: Run the full smoke test (true/false)
+        required: true
+        default: "true"
+
+permissions:
+  contents: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - name: HTTP check
+        run: |
+          code=$(curl -s -o /tmp/index.html -w '%{http_code}' -L "${{ inputs.url }}")
+          m=$(curl -s -o /dev/null -w '%{http_code}' -L "${{ inputs.url }}data/lagos/manifest.json")
+          echo "::notice::${{ inputs.url }} -> HTTP $code; manifest -> HTTP $m; title: $(grep -o '<title>[^<]*' /tmp/index.html | head -1)"
+      - uses: actions/setup-node@v4
+        if: inputs.smoke == 'true'
+        with:
+          node-version: 22
+      - name: Smoke test
+        if: inputs.smoke == 'true'
+        run: |
+          npm i --no-save --no-package-lock playwright@1
+          npx playwright install --with-deps chromium
+          node scripts/qa/smoke.mjs "${{ inputs.url }}" qa-out
+      - name: Publish screenshots to the qa branch
+        if: always() && inputs.smoke == 'true'
+        run: |
+          mkdir -p qa-out && cd qa-out
+          git init -b qa
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "QA $(date -u +%Y-%m-%dT%H:%MZ)" || exit 0
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" HEAD:qa
