@@ -40,7 +40,7 @@ const ENDPOINTS = (process.env.OVERPASS_ENDPOINTS || '').split(',').filter(Boole
     ];
 
 const bb = (b) => `${b.s},${b.w},${b.n},${b.e}`;
-const head = '[out:json][timeout:900][maxsize:2000000000];';
+const head = '[out:json][timeout:240][maxsize:536870912];';
 
 const LAYERS = {
   roads: (b) => `${head}(way["highway"](${bb(b)}););out body geom qt;`,
