@@ -36,9 +36,11 @@ jobs:
           ARGS="--out osm-raw"
           if [ -n "${{ inputs.only }}" ]; then ARGS="$ARGS --only ${{ inputs.only }}"; fi
           if [ -n "${{ inputs.layers }}" ]; then ARGS="$ARGS --layers ${{ inputs.layers }}"; fi
-          node scripts/fetch-osm.mjs $ARGS
+          set -o pipefail
+          node scripts/fetch-osm.mjs $ARGS 2>&1 | tee -a osm-raw/export.log
           ls -la osm-raw
       - name: Push to osm-raw branch
+        if: always()
         run: |
           cd osm-raw
           if [ ! -d .git ] && [ ! -f .git ]; then git init -b osm-raw; fi

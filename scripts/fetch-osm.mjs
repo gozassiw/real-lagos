@@ -101,7 +101,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 async function overpass(query, label) {
   let lastErr;
-  for (let attempt = 0; attempt < 8; attempt++) {
+  for (let attempt = 0; attempt < 10; attempt++) {
     const url = ENDPOINTS[attempt % ENDPOINTS.length];
     const t0 = Date.now();
     try {
@@ -141,13 +141,15 @@ async function main() {
     ? JSON.parse(await readFile(path.join(OUT, 'manifest.json'), 'utf8'))
     : { source: 'OpenStreetMap via Overpass API', license: 'ODbL 1.0 — © OpenStreetMap contributors', areas: AREAS, files: {} };
 
+  const failures = [];
   for (const area of onlyAreas) {
     const b = AREAS[area];
     console.log(`Area ${area} ${bb(b)}`);
     for (const layer of onlyLayers) {
       if (layer === 'places') continue;
+      try {
       if (layer === 'buildings') {
-        const ts = tiles(b, 0.04);
+        const ts = tiles(b, 0.03);
         const merged = { elements: [], osm3s: null };
         const seen = new Set();
         for (let i = 0; i < ts.length; i++) {
@@ -171,17 +173,28 @@ async function main() {
       await save(`${area}_${layer}`, j);
       manifest.files[`${area}_${layer}`] = { elements: j.elements.length, osm_base: j.osm3s?.timestamp_osm_base };
       await sleep(2000);
+      } catch (e) {
+        failures.push(`${area}_${layer}`);
+        console.log(`::warning::OSM layer ${area}_${layer} failed: ${String(e.message || e).slice(0, 180)}`);
+      }
     }
   }
-  if (onlyLayers.includes('places')) {
+  if (onlyLayers.includes('places')) try {
     const q = `${head}(node["place"~"^(city|town|suburb|quarter|neighbourhood|village|hamlet|island|islet|locality)$"](${bb(PLACES_BBOX)});way["place"~"^(island|islet|suburb|neighbourhood|quarter)$"](${bb(PLACES_BBOX)});rel["place"~"^(island|suburb|neighbourhood|quarter)$"](${bb(PLACES_BBOX)}););out center tags;`;
     const j = await overpass(q, 'places');
     await save('places', j);
     manifest.files.places = { elements: j.elements.length, osm_base: j.osm3s?.timestamp_osm_base };
+  } catch (e) {
+    failures.push('places');
+    console.log(`::warning::OSM layer places failed: ${String(e.message || e).slice(0, 180)}`);
   }
   manifest.exported_at = new Date().toISOString();
   await writeFile(path.join(OUT, 'manifest.json'), JSON.stringify(manifest, null, 2));
-  console.log('Done.');
+  manifest.failures = failures;
+  await writeFile(path.join(OUT, 'manifest.json'), JSON.stringify(manifest, null, 2));
+  const summary = Object.entries(manifest.files).map(([k, v]) => `${k}:${v.elements}`).join(' ');
+  console.log(`::notice::OSM export ${failures.length ? 'partial' : 'complete'} — ${summary}${failures.length ? ' — FAILED: ' + failures.join(',') : ''}`);
+  if (failures.length) process.exitCode = 2;
 }
 
 main().catch((e) => {
