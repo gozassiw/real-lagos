@@ -22,10 +22,10 @@ export interface Interaction {
 }
 
 export const QUEST_STEPS = [
-  { id: 'find-work', title: 'Find work', hint: 'Walk to a job — VI office or Yaba tech hub' },
+  { id: 'find-work', title: 'Find work', hint: 'Danfo from Bourdillon to the VI office — or walk over Falomo Bridge' },
   { id: 'earn', title: 'Earn some naira', hint: 'Do a shift at the job' },
   { id: 'eat', title: 'Buy food', hint: 'Eat at a buka or restaurant' },
-  { id: 'social', title: 'Visit a social spot', hint: 'Go to the lounge in Lekki Phase 1 and dance' },
+  { id: 'social', title: 'Visit a social spot', hint: 'Take a danfo to Admiralty Way, Lekki Phase 1 — dance at the lounge' },
   { id: 'done', title: 'You dey Lagos now!', hint: 'Explore, shop at Balogun, rest at home in Ikoyi' },
 ] as const;
 

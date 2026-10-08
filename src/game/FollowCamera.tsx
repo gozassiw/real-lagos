@@ -38,6 +38,8 @@ export function FollowCamera() {
     const g = useGame.getState();
     const interior = g.player?.region === 'interior';
     const riding = worldState.riding;
+    // first frame: adopt the yaw the player spawned with (before input / auto-follow write it back)
+    if (!s.init) s.yaw = worldState.camYaw;
 
     // input
     const dragging = Math.abs(input.dYaw) + Math.abs(input.dPitch) > 0;
@@ -69,7 +71,6 @@ export function FollowCamera() {
     tmp.set(focus.x, focus.y + headY, focus.z);
     if (!s.init) {
       s.target.copy(tmp);
-      s.yaw = worldState.camYaw;
       s.init = true;
     }
     const k = 1 - Math.exp(-dt * (riding ? 6 : 14));

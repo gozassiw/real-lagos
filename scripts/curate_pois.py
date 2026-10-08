@@ -29,10 +29,12 @@ SPOTS = [
     # ---- Ikoyi: home + iconic suya + danfo
     dict(id='ikoyi-home', kind='home', zone='Ikoyi', label='Your flat · Falomo Close', anchor=('Falomo Close', 'way/129730330', 6.44451, 3.43975)),
     dict(id='ikoyi-suya', kind='eat', zone='Ikoyi', label='Glover Court Suya', anchor=('Glover Court Suya', 'node/4946299659', 6.452123, 3.435486), price=1500, meal='Suya & cold zobo', hunger=40),
+    dict(id='stop-bourdillon', kind='danfo', zone='Ikoyi', label='Bourdillon bus stop', anchor=('Bourdillon Road stop (platform)', 'node/5676295240', 6.4458661, 3.435917)),
     dict(id='stop-falomo', kind='danfo', zone='Ikoyi', label='Falomo bus stop', anchor=('Falomo (bus stop)', 'node/5661711556', 6.444413, 3.426035)),
     dict(id='stop-obalende', kind='danfo', zone='Obalende', label='Obalende motor park', anchor=('Obalende Motor Park', 'node/4755897332', 6.449635, 3.407376)),
     # ---- Victoria Island: office job + food
     dict(id='vi-office', kind='work', zone='Victoria Island', label='Office shift · Civic Towers', anchor=('Civic Towers', 'way/531627775', 6.439918, 3.429473), pay=2000, energy=18, seconds=4),
+    dict(id='stop-civic', kind='danfo', zone='Victoria Island', label='Civic Centre bus stop', anchor=('Ozumba Mbadiwe Avenue', None, 6.439345, 3.428134)),
     dict(id='vi-food', kind='eat', zone='Victoria Island', label='Mama Cass', anchor=('Mama Cass', 'node/1513600883', 6.431264, 3.432662), price=1800, meal='Jollof rice & chicken', hunger=50),
     # ---- Lagos Island: Balogun market + buka + danfo
     dict(id='balogun', kind='shop', zone='Lagos Island', label='Balogun Market', anchor=('Balogun Street', 'way/215113173', 6.455758, 3.383674), items=[
@@ -50,9 +52,10 @@ SPOTS = [
     dict(id='stop-yaba', kind='danfo', zone='Yaba', label='Yaba bus terminal', anchor=('Yaba Bus Terminal', 'way/707609369', 6.510815, 3.370799)),
     dict(id='stop-surulere', kind='danfo', zone='Surulere', label='Stadium bus stop', anchor=('Teslim Balogun Stadium', 'way/1434311438', 6.499705, 3.360769)),
     # ---- Lekki Phase 1: lounge + food + danfo (toll gate)
-    dict(id='lekki-lounge', kind='social', zone='Lekki Phase 1', label='H21 Lounge', anchor=('H21 Apartments and Lounge', 'way/930433197', 6.440871, 3.463589), price=1000),
-    dict(id='lekki-food', kind='eat', zone='Lekki Phase 1', label='Tantalizers', anchor=('Tantalizers', 'node/1523336782', None, None), search=(r'tantalizers', r'amenity', 6.4480, 3.4710, 1200), price=2000, meal='Jollof rice & plantain', hunger=50),
-    dict(id='stop-lekki', kind='danfo', zone='Lekki Phase 1', label='Lekki toll gate bus stop', anchor=('Admiralty Toll Plaza', 'way/216689333', 6.435933, 3.447211)),
+    dict(id='lekki-lounge', kind='social', zone='Lekki Phase 1', label='Medusa Lounge', anchor=('MEDUSA LAGOS (bar)', 'way/996863575', 6.4475298, 3.4574966), price=1000),
+    dict(id='lekki-food', kind='eat', zone='Lekki Phase 1', label='Amala Sky', anchor=('Amala Sky Lagos', 'node/9685011127', 6.445727, 3.4578142), price=1800, meal='Amala, gbegiri & ewedu', hunger=50),
+    dict(id='stop-lekki', kind='danfo', zone='Lekki Phase 1', label='Admiralty Way bus stop', anchor=('Admiralty Way', 'way/216882041', 6.445776, 3.458383)),
+    dict(id='stop-tollgate', kind='danfo', zone='Lekki toll gate', label='Lekki toll gate bus stop', anchor=('Admiralty Toll Plaza', 'way/216689333', 6.435933, 3.447211)),
     # ---- Ikeja (separate district chunk)
     dict(id='computer-village', kind='shop', zone='Ikeja', label='Computer Village', anchor=('Otigba Street / Computer Village', 'way/134404813', 6.594116, 3.341905), items=[
         dict(id='earbuds', name='Wireless earbuds', price=3500),
@@ -246,7 +249,7 @@ def main():
     if a.list:
         return
     home = next(p for p in out if p['kind'] == 'home')
-    spawn = {'x': home['x'] + math.sin(home['heading']) * 3, 'z': home['z'] + math.cos(home['heading']) * 3, 'heading': home['heading'], 'zone': home['zone']}
+    spawn = {'x': home['x'] + math.sin(home['heading']) * 7, 'z': home['z'] + math.cos(home['heading']) * 7, 'heading': home['heading'], 'zone': home['zone']}
     json.dump({'spawn': spawn, 'pois': out, 'attribution': 'Positions from OpenStreetMap features © OpenStreetMap contributors (ODbL)'},
               open(os.path.join(a.data, 'gameplay.json'), 'w'), indent=1)
     print('wrote gameplay.json')

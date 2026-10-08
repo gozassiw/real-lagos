@@ -1,7 +1,7 @@
 {
  "spawn": {
-  "x": 3287.8376571620547,
-  "z": 607.4277343812759,
+  "x": 3290.3278667114614,
+  "z": 610.5580468896437,
   "heading": 0.672,
   "zone": "Ikoyi"
  },
@@ -34,6 +34,19 @@
    "lon": 3.435486,
    "heading": 0.0,
    "osm": "node/4946299659"
+  },
+  {
+   "id": "stop-bourdillon",
+   "kind": "danfo",
+   "zone": "Ikoyi",
+   "name": "Bourdillon bus stop",
+   "place": "Bourdillon Road stop (platform) (node/5676295240)",
+   "x": 2866.81,
+   "z": 460.18,
+   "lat": 6.445866,
+   "lon": 3.435917,
+   "heading": 0.0,
+   "osm": "node/5676295240"
   },
   {
    "id": "stop-falomo",
@@ -76,6 +89,19 @@
    "lon": 3.429486,
    "heading": 0.089,
    "osm": "way/531627775"
+  },
+  {
+   "id": "stop-civic",
+   "kind": "danfo",
+   "zone": "Victoria Island",
+   "name": "Civic Centre bus stop",
+   "place": "Ozumba Mbadiwe Avenue (None)",
+   "x": 2005.89,
+   "z": 1186.11,
+   "lat": 6.439345,
+   "lon": 3.428134,
+   "heading": 0.0,
+   "osm": null
   },
   {
    "id": "vi-food",
@@ -225,35 +251,48 @@
    "kind": "social",
    "zone": "Lekki Phase 1",
    "price": 1000,
-   "name": "H21 Lounge",
-   "place": "H21 Apartments and Lounge (way/930433197)",
-   "x": 5927.69,
-   "z": 1025.65,
-   "lat": 6.440786,
-   "lon": 3.463589,
-   "heading": -0.005,
-   "osm": "way/930433197"
+   "name": "Medusa Lounge",
+   "place": "MEDUSA LAGOS (bar) (way/996863575)",
+   "x": 5260.09,
+   "z": 287.42,
+   "lat": 6.447418,
+   "lon": 3.457553,
+   "heading": 0.467,
+   "osm": "way/996863575"
   },
   {
    "id": "lekki-food",
    "kind": "eat",
    "zone": "Lekki Phase 1",
-   "price": 2000,
-   "meal": "Jollof rice & plantain",
+   "price": 1800,
+   "meal": "Amala, gbegiri & ewedu",
    "hunger": 50,
-   "name": "Tantalizers",
-   "place": "Tantalizers (node/1523336782)",
-   "x": 6713.21,
-   "z": 204.18,
-   "lat": 6.448166,
-   "lon": 3.47069,
-   "heading": -0.003,
-   "osm": "node/1523336782"
+   "name": "Amala Sky",
+   "place": "Amala Sky Lagos (node/9685011127)",
+   "x": 5290.48,
+   "z": 478.74,
+   "lat": 6.445699,
+   "lon": 3.457828,
+   "heading": 0.46,
+   "osm": "node/9685011127"
   },
   {
    "id": "stop-lekki",
    "kind": "danfo",
    "zone": "Lekki Phase 1",
+   "name": "Admiralty Way bus stop",
+   "place": "Admiralty Way (way/216882041)",
+   "x": 5351.88,
+   "z": 470.21,
+   "lat": 6.445776,
+   "lon": 3.458383,
+   "heading": 0.0,
+   "osm": "way/216882041"
+  },
+  {
+   "id": "stop-tollgate",
+   "kind": "danfo",
+   "zone": "Lekki toll gate",
    "name": "Lekki toll gate bus stop",
    "place": "Admiralty Toll Plaza (way/216689333)",
    "x": 4105.88,

@@ -18,6 +18,7 @@ import { worldState } from './game/worldState';
   return {
     player: [+p.x.toFixed(2), +p.y.toFixed(2), +p.z.toFixed(2)],
     heading: +worldState.playerHeading.toFixed(2),
+    camYaw: +worldState.camYaw.toFixed(2),
     speed: +worldState.playerSpeed.toFixed(2),
     chunks: worldState.loadedChunks,
     pending: worldState.pendingChunks,
