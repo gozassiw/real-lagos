@@ -27,12 +27,17 @@ export const AREAS = {
 };
 const PLACES_BBOX = { s: 6.35, w: 3.25, n: 6.7, e: 3.6 };
 
-const ENDPOINTS = [
-  'https://overpass-api.de/api/interpreter',
-  'https://overpass.private.coffee/api/interpreter',
-  'https://overpass.kumi.systems/api/interpreter',
-  'https://maps.mail.ru/osm/tools/overpass/api/interpreter',
-];
+// Order matters: overpass-api.de answers 406 to GitHub runners and kumi.systems currently errors (probe run
+// 2026-10-08), so prefer private.coffee and mail.ru. Override with OVERPASS_ENDPOINTS=url1,url2.
+const ENDPOINTS = (process.env.OVERPASS_ENDPOINTS || '').split(',').filter(Boolean).length
+  ? process.env.OVERPASS_ENDPOINTS.split(',')
+  : [
+      'https://overpass.private.coffee/api/interpreter',
+      'https://maps.mail.ru/osm/tools/overpass/api/interpreter',
+      'https://overpass.private.coffee/api/interpreter',
+      'https://overpass-api.de/api/interpreter',
+      'https://overpass.kumi.systems/api/interpreter',
+    ];
 
 const bb = (b) => `${b.s},${b.w},${b.n},${b.e}`;
 const head = '[out:json][timeout:900][maxsize:2000000000];';
@@ -123,7 +128,7 @@ async function overpass(query, label) {
     } catch (e) {
       lastErr = e;
       console.warn(`  ✗ ${label} attempt ${attempt + 1} (${new URL(url).host}): ${String(e.message || e).slice(0, 200)}`);
-      await sleep(Math.min(60000, 5000 * 2 ** attempt));
+      await sleep(Math.min(45000, 4000 * 1.6 ** attempt));
     }
   }
   throw lastErr;

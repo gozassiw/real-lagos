@@ -18,20 +18,27 @@ jobs:
         include:
           - part: base
             args: "--only core --layers roads,rail,water,landuse,barriers,pois,places"
+            endpoints: "https://overpass.private.coffee/api/interpreter,https://maps.mail.ru/osm/tools/overpass/api/interpreter,https://overpass.private.coffee/api/interpreter"
           - part: b1
             args: "--only core --layers buildings --tile-range 0:12 --suffix _p1"
+            endpoints: "https://maps.mail.ru/osm/tools/overpass/api/interpreter,https://overpass.private.coffee/api/interpreter,https://maps.mail.ru/osm/tools/overpass/api/interpreter"
           - part: b2
             args: "--only core --layers buildings --tile-range 12:24 --suffix _p2"
+            endpoints: "https://overpass.private.coffee/api/interpreter,https://maps.mail.ru/osm/tools/overpass/api/interpreter,https://overpass.private.coffee/api/interpreter"
           - part: b3
             args: "--only core --layers buildings --tile-range 24:36 --suffix _p3"
+            endpoints: "https://maps.mail.ru/osm/tools/overpass/api/interpreter,https://overpass.private.coffee/api/interpreter,https://maps.mail.ru/osm/tools/overpass/api/interpreter"
           - part: ikeja
             args: "--only ikeja"
+            endpoints: "https://overpass.private.coffee/api/interpreter,https://maps.mail.ru/osm/tools/overpass/api/interpreter,https://overpass.private.coffee/api/interpreter"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: 22
       - name: Fetch from Overpass
+        env:
+          OVERPASS_ENDPOINTS: ${{ matrix.endpoints }}
         run: |
           mkdir -p out
           node scripts/fetch-osm.mjs --out out ${{ matrix.args }} 2>&1 | tee out/export-${{ matrix.part }}.log
