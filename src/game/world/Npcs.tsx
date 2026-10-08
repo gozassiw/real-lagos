@@ -111,7 +111,6 @@ export function Npcs() {
     }
     for (const sp of spots.current.values())
       for (const n of sp.npcs) {
-        if (n.clip === 'nod' && !n.inst.actions.nod.isRunning() && Math.random() < dt * 0.4) n.inst.actions.nod.reset().play();
         n.inst.mixer.update(dt);
       }
   });

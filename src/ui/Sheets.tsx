@@ -38,7 +38,7 @@ function ShopSheet({ p }: { p: GamePoi }) {
   const cash = useGame((s) => s.cash);
   const inv = useGame((s) => s.inventory);
   return (
-    <Sheet title={p.name} sub={`${p.place} · you have ${naira(cash)}`} onClose={() => useShop.close()}>
+    <Sheet title={p.name} sub={`${p.place.replace(/\s*\((node|way|relation)\/\d+\)/, '')}, ${p.zone} · you have ${naira(cash)}`} onClose={() => useShop.close()}>
       <ul className="items">
         {(p.items ?? []).map((it) => {
           const owned = inv.filter((x) => x === it.id).length;

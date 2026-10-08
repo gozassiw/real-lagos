@@ -77,7 +77,7 @@ export function FollowCamera() {
     if (s.target.distanceTo(tmp) > 60) s.target.copy(tmp);
 
     // far zoom = more top-down
-    const want = riding ? Math.max(s.dist, 45) : s.dist;
+    const want = riding ? Math.max(s.dist, 70) : s.dist;
     const pitch = want > 25 ? Math.max(s.pitch, THREE.MathUtils.mapLinear(Math.min(want, 140), 25, 140, 0.55, 1.05)) : s.pitch;
     const cosP = Math.cos(pitch), sinP = Math.sin(pitch);
     const dir = new THREE.Vector3(Math.sin(s.yaw) * cosP, sinP, Math.cos(s.yaw) * cosP);
@@ -89,7 +89,8 @@ export function FollowCamera() {
     r.origin = { x: s.target.x, y: s.target.y, z: s.target.z };
     r.dir = { x: dir.x, y: dir.y, z: dir.z };
     const hit = world.castRay(r, want, true, undefined, undefined, undefined, undefined, (c) => !c.parent()?.isKinematic());
-    if (hit && hit.timeOfImpact < want) d = Math.max(0.6, hit.timeOfImpact - 0.25);
+    // collisions matter for the close follow camera; the zoomed-out aerial view flies over the city
+    if (hit && hit.timeOfImpact < want && !riding && want < 45) d = Math.max(0.6, hit.timeOfImpact - 0.25);
     // smooth zoom-in fast, zoom-out slow
     s.distSmoothed += (d - s.distSmoothed) * Math.min(1, dt * (d < s.distSmoothed ? 18 : 4));
 

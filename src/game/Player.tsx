@@ -207,7 +207,6 @@ export function Player({ spawn }: { spawn: { x: number; z: number; heading: numb
       else if (g.busy) clip = 'nod';
       else if (actual > 4.2) clip = 'run';
       else if (actual > 0.25) clip = 'walk';
-      if (g.busy && a.current === 'nod' && !a.actions.nod.isRunning()) a.actions.nod.reset().play();
       a.play(clip, clip === 'dance' ? 0.4 : 0.2);
       if (clip === 'walk') a.actions.walk.setEffectiveTimeScale(THREE.MathUtils.clamp(actual / 1.45, 0.6, 2.2));
       if (clip === 'run') a.actions.run.setEffectiveTimeScale(THREE.MathUtils.clamp(actual / 5.4, 0.8, 1.6));

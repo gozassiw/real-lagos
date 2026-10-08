@@ -222,7 +222,7 @@ export function MapScreen() {
           <div>
             <b>{sel.name}</b>
             <small>
-              {KIND_NAME[sel.kind]} · {sel.zone} · {(Math.hypot(sel.x - p.x, sel.z - p.z) / 1000).toFixed(1)} km · based on {sel.place}
+              {KIND_NAME[sel.kind]} · {sel.zone} · {(Math.hypot(sel.x - p.x, sel.z - p.z) / 1000).toFixed(1)} km · based on OSM: {sel.place}
             </small>
           </div>
         </div>

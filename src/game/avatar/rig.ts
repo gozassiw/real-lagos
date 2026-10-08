@@ -49,10 +49,8 @@ export function createAvatar(rig: Rig, look: AvatarLook): AvatarInstance {
   const actions: Record<string, THREE.AnimationAction> = {};
   for (const [name, clip] of Object.entries(rig.clips)) {
     const a = mixer.clipAction(clip);
-    if (name === 'nod') {
-      a.setLoop(THREE.LoopOnce, 1);
-      a.clampWhenFinished = false;
-    }
+    // all clips loop (a one-shot clip that finishes would drop the skeleton back to its T-pose)
+    a.setLoop(THREE.LoopRepeat, Infinity);
     actions[name] = a;
   }
   const inst: AvatarInstance = {

@@ -191,16 +191,17 @@ function TopButtons() {
 export function Hud() {
   const ui = useGame((s) => s.ui);
   const avatarId = useGame((s) => s.avatarId);
+  const riding = useGame((s) => !!s.ride);
   return (
-    <div className="hud">
+    <div className={`hud ${riding ? 'is-riding' : ''}`}>
       <div className="hud-top">
         <div className="hud-left">
           <Stats />
           <Quest />
         </div>
-        <AreaLabel />
         <div className="hud-right">
           <MiniMap />
+          <AreaLabel />
           <TopButtons />
         </div>
       </div>

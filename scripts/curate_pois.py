@@ -198,6 +198,20 @@ def main():
         # move the marker out of any building, onto the street side
         blds = load_buildings_near(a.data, x, z, 80)
         heading = 0.0
+        if s['kind'] == 'home' and blds:
+            # the anchor is a street: put "your flat" at the door of the nearest house / apartment block on it
+            best = None
+            for rec, poly in blds:
+                if rec[0] not in (0, 1, 3, 5):
+                    continue
+                e = nearest_edge((x, z), poly)
+                if best is None or e[0] < best[0]:
+                    best = e
+            if best and best[0] < 35:
+                d, q, n = best
+                x, z = q[0] + n[0] * 2.6, q[1] + n[1] * 2.6
+                heading = math.atan2(n[0], n[1])
+                blds = load_buildings_near(a.data, x, z, 80)
         for rec, poly in blds:
             if inside((x, z), poly):
                 d, q, n = nearest_edge((x, z), poly)

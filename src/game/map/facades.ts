@@ -94,18 +94,25 @@ function shutter(g: Ctx, x: number, y: number, r: () => number, open: boolean) {
 
 function glass(g: Ctx, x: number, y: number, tint: string, r: () => number, mullion = '170,180,190', lobby = false) {
   rect(g, x, y, CELL, CELL, tint);
-  for (let i = 0; i < 40; i++) {
-    const v = r() < 0.5 ? '255,255,255' : '0,0,0';
-    g.fillStyle = `rgba(${v},${0.06 + r() * 0.05})`;
-    g.fillRect(x + r() * CELL, y + r() * CELL, 20 + r() * 40, 6 + r() * 20);
-  }
-  // sky reflection gradient
-  const grd = g.createLinearGradient(x, y, x + CELL, y + CELL);
-  grd.addColorStop(0, `rgba(200,225,240,0.25)`);
-  grd.addColorStop(1, `rgba(200,225,240,0)`);
-  g.fillStyle = grd;
+  // sky reflection: lighter towards the top of each floor, a soft diagonal sheen
+  const v = g.createLinearGradient(x, y, x, y + CELL);
+  v.addColorStop(0, `rgba(215,232,242,${FIX * 0.55})`);
+  v.addColorStop(0.55, `rgba(215,232,242,0)`);
+  g.fillStyle = v;
   g.fillRect(x, y, CELL, CELL);
-  rect(g, x, y + CELL - 10, CELL, 10, mullion);
+  const d = g.createLinearGradient(x, y + CELL, x + CELL, y);
+  d.addColorStop(0.35, 'rgba(255,255,255,0)');
+  d.addColorStop(0.5, `rgba(255,255,255,${0.16 + r() * 0.08})`);
+  d.addColorStop(0.62, 'rgba(255,255,255,0)');
+  g.fillStyle = d;
+  g.fillRect(x, y, CELL, CELL);
+  // a few lit / blind panes
+  for (let i = 0; i < 3; i++) {
+    const px = Math.floor(r() * 4) * 32, w = 32;
+    g.fillStyle = r() < 0.5 ? `rgba(30,36,40,${FIX * 0.5})` : `rgba(240,236,220,${FIX * 0.35})`;
+    g.fillRect(x + px + 3, y + 14, w - 6, CELL - 30);
+  }
+  rect(g, x, y + CELL - 12, CELL, 12, mullion);
   for (let i = 0; i <= CELL; i += lobby ? 64 : 32) rect(g, x + i - 2, y, 4, CELL, mullion);
   if (lobby) rect(g, x + 40, y + 50, 48, 78, '30,36,40');
 }

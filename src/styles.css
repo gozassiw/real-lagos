@@ -49,6 +49,10 @@ a { color: inherit; }
 .hud-top > * { pointer-events: auto; }
 .hud-left { display: flex; flex-direction: column; gap: 6px; max-width: 46vw; }
 .hud-right { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+/* wide screens: the area label sits centred at the top; narrow screens: under the minimap */
+@media (min-width: 640px) {
+  .hud-top .area { position: absolute; left: 50%; top: 0; transform: translateX(-50%); max-width: 36vw; }
+}
 
 .stats { background: var(--plate); border-radius: 12px; padding: 8px 10px 9px; min-width: 168px; backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
 .cash { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
@@ -72,7 +76,12 @@ a { color: inherit; }
 .quest-arrow { color: var(--danfo); font-size: 15px; display: inline-block; transition: transform 0.25s linear; }
 .quest-dist { font-size: 13px; font-weight: 600; font-variant-numeric: tabular-nums; }
 
-.area { text-align: center; padding-top: 2px; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55), 0 0 12px rgba(0, 0, 0, 0.25); flex: 1; min-width: 0; }
+.area { text-align: center; padding-top: 2px; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55), 0 0 12px rgba(0, 0, 0, 0.25); min-width: 0; pointer-events: none; }
+@media (max-width: 639px) {
+  .area { text-align: right; max-width: 46vw; }
+  .area-road { justify-content: flex-end; }
+  .toasts { top: auto; bottom: calc(46% + var(--sab)); }
+}
 .area-name { font-size: 27px; font-weight: 700; line-height: 1; letter-spacing: 0.01em; }
 .area-road { font-size: 14px; font-weight: 500; display: flex; gap: 6px; justify-content: center; align-items: center; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .area-compass { font-size: 11px; font-weight: 700; color: var(--asphalt); background: var(--danfo); border-radius: 4px; padding: 0 4px; text-shadow: none; }
@@ -125,12 +134,13 @@ a { color: inherit; }
 .run-btn.on { border-color: var(--danfo); color: var(--danfo); }
 .use-btn { width: 84px; height: 84px; border-radius: 50%; border: 0; background: rgba(27, 28, 30, 0.55); color: rgba(255, 255, 255, 0.55); font-family: var(--font); font-size: 22px; font-weight: 700; margin-bottom: 26px; }
 .use-btn.ready { background: var(--danfo); color: var(--asphalt); box-shadow: 0 0 0 4px rgba(242, 194, 48, 0.35), 0 6px 16px rgba(0, 0, 0, 0.35); }
-.touch-ui .icard { left: auto; right: calc(12px + var(--sar)); transform: none; bottom: calc(124px + var(--sab)); width: auto; min-width: 0; max-width: min(64vw, 320px); animation: none; }
+.touch-ui .icard { left: auto; right: calc(12px + var(--sar)); transform: none; bottom: calc(146px + var(--sab)); width: auto; min-width: 0; max-width: min(64vw, 320px); animation: none; }
 .touch-ui .icard-go { display: none; }
 .touch-ui .icard-body { padding: 13px 14px; }
 .touch-ui .icard-title { font-size: 18px; }
 .touch-ui .busy { bottom: calc(200px + var(--sab)); }
-.touch-ui .ride { bottom: calc(128px + var(--sab)); }
+.touch-ui .ride { bottom: calc(30px + var(--sab)); }
+.is-riding .joy-zone, .is-riding .action-btns, .is-riding .joy { display: none !important; }
 
 .osm-attrib { position: absolute; left: calc(6px + var(--sal)); bottom: calc(3px + var(--sab)); font-family: var(--font-text); font-size: 10.5px; color: rgba(255, 255, 255, 0.92); background: rgba(27, 28, 30, 0.5); padding: 1px 6px; border-radius: 4px; text-decoration: none; }
 
@@ -209,7 +219,7 @@ a { color: inherit; }
 
 /* small phones / landscape */
 @media (max-width: 560px) {
-  .area-name { font-size: 21px; }
+  .area-name { font-size: 19px; }
   .area-road { font-size: 12px; }
   .minimap { width: 108px; height: 108px; }
   .minimap canvas { width: 104px !important; height: 104px !important; }
