@@ -1,0 +1,50 @@
+{
+  "source": "OpenStreetMap via Overpass API",
+  "license": "ODbL 1.0 — © OpenStreetMap contributors",
+  "areas": {
+    "core": {
+      "s": 6.395,
+      "w": 3.325,
+      "n": 6.555,
+      "e": 3.505
+    },
+    "ikeja": {
+      "s": 6.575,
+      "w": 3.325,
+      "n": 6.625,
+      "e": 3.375
+    }
+  },
+  "files": {
+    "core_roads": {
+      "elements": 16492,
+      "osm_base": "2026-10-08T21:07:06Z"
+    },
+    "core_rail": {
+      "elements": 105,
+      "osm_base": "2026-10-08T21:07:06Z"
+    },
+    "core_water": {
+      "elements": 248,
+      "osm_base": "2026-10-08T21:07:06Z"
+    },
+    "core_landuse": {
+      "elements": 1937,
+      "osm_base": "2026-10-08T21:08:06Z"
+    },
+    "core_barriers": {
+      "elements": 2208,
+      "osm_base": "2026-10-08T21:08:06Z"
+    },
+    "core_pois": {
+      "elements": 1916,
+      "osm_base": "2026-10-08T21:09:06Z"
+    },
+    "places": {
+      "elements": 210,
+      "osm_base": "2026-10-08T21:10:06Z"
+    }
+  },
+  "exported_at": "2026-10-08T21:12:09.619Z",
+  "failures": []
+}

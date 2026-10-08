@@ -1,0 +1,131 @@
+Area core 6.395,3.325,6.555,3.505
+  ✗ core roads attempt 1 (overpass.private.coffee): HTTP 500: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>Internal Server Error</h1>
+
+  ✗ core roads attempt 2 (maps.mail.ru): HTTP 504: <html>
+<head><title>504 Gateway Time-out</title></head>
+<body>
+<center><h1>504 Gateway Time-out</h1></center>
+<hr><center>nginx</center>
+</body>
+</html>
+
+  ✗ core roads attempt 3 (overpass.private.coffee): HTTP 500: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>Internal Server Error</h1>
+
+  ✗ core roads attempt 4 (overpass.private.coffee): HTTP 500: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>Internal Server Error</h1>
+
+  ✓ core roads via maps.mail.ru: 16492 elements, 11.3 MB, 21s
+  ✗ core rail attempt 1 (overpass.private.coffee): HTTP 500: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>Internal Server Error</h1>
+
+  ✓ core rail via maps.mail.ru: 105 elements, 0.1 MB, 21s
+  ✗ core water attempt 1 (overpass.private.coffee): HTTP 500: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>Internal Server Error</h1>
+
+  ✓ core water via maps.mail.ru: 248 elements, 0.8 MB, 17s
+  ✗ core landuse attempt 1 (overpass.private.coffee): HTTP 500: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>Internal Server Error</h1>
+
+  ✗ core landuse attempt 2 (maps.mail.ru): HTTP 504: <html>
+<head><title>504 Gateway Time-out</title></head>
+<body>
+<center><h1>504 Gateway Time-out</h1></center>
+<hr><center>nginx</center>
+</body>
+</html>
+
+  ✗ core landuse attempt 3 (overpass.private.coffee): HTTP 500: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>Internal Server Error</h1>
+
+  ✗ core landuse attempt 4 (overpass.private.coffee): HTTP 500: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>Internal Server Error</h1>
+
+  ✓ core landuse via maps.mail.ru: 1937 elements, 2.4 MB, 13s
+  ✗ core barriers attempt 1 (overpass.private.coffee): HTTP 500: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>Internal Server Error</h1>
+
+  ✓ core barriers via maps.mail.ru: 2208 elements, 1.0 MB, 10s
+  ✗ core pois attempt 1 (overpass.private.coffee): HTTP 500: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>Internal Server Error</h1>
+
+  ✗ core pois attempt 2 (maps.mail.ru): HTTP 504: <html>
+<head><title>504 Gateway Time-out</title></head>
+<body>
+<center><h1>504 Gateway Time-out</h1></center>
+<hr><center>nginx</center>
+</body>
+</html>
+
+  ✗ core pois attempt 3 (overpass.private.coffee): HTTP 500: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>Internal Server Error</h1>
+
+  ✗ core pois attempt 4 (overpass.private.coffee): HTTP 500: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>Internal Server Error</h1>
+
+  ✓ core pois via maps.mail.ru: 1916 elements, 0.5 MB, 14s
+  ✗ places attempt 1 (overpass.private.coffee): HTTP 500: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>Internal Server Error</h1>
+
+  ✗ places attempt 2 (maps.mail.ru): HTTP 504: <html>
+<head><title>504 Gateway Time-out</title></head>
+<body>
+<center><h1>504 Gateway Time-out</h1></center>
+<hr><center>nginx</center>
+</body>
+</html>
+
+  ✗ places attempt 3 (overpass.private.coffee): HTTP 500: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>Internal Server Error</h1>
+
+  ✗ places attempt 4 (overpass.private.coffee): HTTP 500: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>Internal Server Error</h1>
+
+  ✓ places via maps.mail.ru: 210 elements, 0.1 MB, 18s
+::notice::OSM export complete — core_roads:16492 core_rail:105 core_water:248 core_landuse:1937 core_barriers:2208 core_pois:1916 places:210
