@@ -31,6 +31,10 @@ function lookFor(seed: number, role: string): AvatarLook {
 
 interface Spot { poi: GamePoi; npcs: { inst: AvatarInstance; clip: string }[]; group: THREE.Group }
 
+/** a pedestrian walking along a nearby street (sidewalk offset), recycled as the player moves */
+interface Walker { inst: AvatarInstance; pts: number[]; seg: number; t: number; dir: 1 | -1; off: number; speed: number; active: boolean }
+const WALKERS = 7;
+
 function layout(p: GamePoi): { dx: number; dz: number; rot: number; clip: string; role: string }[] {
   switch (p.kind) {
     case 'social':
@@ -67,14 +71,19 @@ export function Npcs() {
   const root = useRef<THREE.Group>(null!);
   const rig = useRef<Rig | null>(null);
   const spots = useRef(new Map<string, Spot>());
+  const walkers = useRef<Walker[]>([]);
   const t = useRef(0);
+  const wt = useRef(0);
 
   useEffect(() => {
     loadRig(RIG_URL).then((r) => (rig.current = r));
     const s = spots.current;
+    const w = walkers.current;
     return () => {
       for (const sp of s.values()) sp.npcs.forEach((n) => n.inst.dispose());
       s.clear();
+      w.forEach((x) => x.inst.dispose());
+      w.length = 0;
     };
   }, []);
 
@@ -108,6 +117,64 @@ export function Npcs() {
           spots.current.delete(poi.id);
         }
       }
+    }
+    // ---- street walkers
+    wt.current -= dt;
+    if (rig.current && wt.current <= 0 && !worldState.riding) {
+      wt.current = 0.8;
+      if (walkers.current.length < WALKERS) {
+        const inst = createAvatar(rig.current, lookFor(walkers.current.length * 37 + 11, walkers.current.length % 3 === 0 ? 'office' : ''));
+        inst.root.traverse((o) => (o.castShadow = true));
+        inst.play('walk', 0);
+        inst.root.visible = false;
+        root.current.add(inst.root);
+        walkers.current.push({ inst, pts: [], seg: 0, t: 0, dir: 1, off: 0, speed: 1.3, active: false });
+      }
+      for (const w of walkers.current) {
+        if (w.active && Math.hypot(w.inst.root.position.x - p.x, w.inst.root.position.z - p.z) > 95) w.active = false;
+        if (w.active) continue;
+        // pick a nearby street segment 25–70 m away
+        const cands: number[][] = [];
+        for (const lines of worldState.roadLines.values())
+          for (const l of lines) {
+            if (l.cls < 4 || l.cls > 8 || l.pts.length < 4) continue;
+            const mx = l.pts[0], mz = l.pts[1];
+            const d = Math.hypot(mx - p.x, mz - p.z);
+            if (d > 20 && d < 80) cands.push(l.pts);
+          }
+        if (!cands.length) break;
+        const pts = cands[Math.floor(Math.random() * cands.length)];
+        w.pts = pts;
+        w.dir = Math.random() < 0.5 ? 1 : -1;
+        w.seg = w.dir === 1 ? 0 : pts.length / 2 - 2;
+        w.t = w.dir === 1 ? 0 : 1;
+        w.off = (Math.random() < 0.5 ? -1 : 1) * (3.4 + Math.random() * 0.8);
+        w.speed = 1.15 + Math.random() * 0.35;
+        w.active = true;
+        w.inst.root.visible = true;
+        break; // one spawn per tick
+      }
+    }
+    for (const w of walkers.current) {
+      if (!w.active) { w.inst.root.visible = false; continue; }
+      const n = w.pts.length / 2;
+      const ax = w.pts[w.seg * 2], az = w.pts[w.seg * 2 + 1], bx = w.pts[w.seg * 2 + 2], bz = w.pts[w.seg * 2 + 3];
+      const L = Math.hypot(bx - ax, bz - az) || 1;
+      w.t += (w.speed * dt * w.dir) / L;
+      if (w.t > 1 || w.t < 0) {
+        w.seg += w.dir;
+        w.t = w.dir === 1 ? 0 : 1;
+        if (w.seg < 0 || w.seg > n - 2) { w.active = false; continue; }
+      }
+      const dx = ((bx - ax) / L) * w.dir, dz = ((bz - az) / L) * w.dir;
+      const x = ax + (bx - ax) * w.t + -dz * w.off, z = az + (bz - az) * w.t + dx * w.off;
+      w.inst.root.position.set(x, 0.02, z);
+      const rot = Math.atan2(dx, dz);
+      let dr = rot - w.inst.root.rotation.y;
+      dr = Math.atan2(Math.sin(dr), Math.cos(dr));
+      w.inst.root.rotation.y += dr * Math.min(1, dt * 6);
+      w.inst.actions.walk.setEffectiveTimeScale(w.speed / 1.4);
+      w.inst.mixer.update(dt);
     }
     for (const sp of spots.current.values())
       for (const n of sp.npcs) {
