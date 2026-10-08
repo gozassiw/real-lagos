@@ -28,8 +28,6 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm run build
-        env:
-          BASE_PATH: /${{ github.event.repository.name }}/
       - name: Also publish the built site to the gh-pages branch (works with "Deploy from a branch" too)
         run: |
           cd dist
