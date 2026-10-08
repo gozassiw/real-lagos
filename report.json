@@ -1,0 +1,26 @@
+{
+  "url": "https://raw.githack.com/gozassiw/real-lagos/gh-pages/index.html",
+  "when": "2026-10-08T22:05:54.637Z",
+  "results": [
+    {
+      "name": "page loads over HTTPS",
+      "ok": true,
+      "detail": "status 200"
+    },
+    {
+      "name": "game starts (HUD visible)",
+      "ok": false,
+      "detail": ""
+    },
+    {
+      "name": "real Lagos map data is in the deployed bundle",
+      "ok": true,
+      "detail": "1181 chunks, OSM base 2026-10-08T21:26:21Z, origin 6.45N 3.41E"
+    },
+    {
+      "name": "smoke test ran to completion",
+      "ok": false,
+      "detail": "TimeoutError: locator.tap: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('.preset').nth(1)\n"
+    }
+  ]
+}
