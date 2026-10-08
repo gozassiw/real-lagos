@@ -1,0 +1,19 @@
+name: Overpass probe
+on:
+  workflow_dispatch:
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Probe endpoints
+        run: |
+          Q='[out:json][timeout:25];node["place"="suburb"](6.40,3.33,6.55,3.50);out 3;'
+          for u in https://overpass-api.de/api https://overpass.private.coffee/api https://overpass.kumi.systems/api https://maps.mail.ru/osm/tools/overpass/api; do
+            st=$(curl -s -m 20 "$u/status" | head -c 300 | tr '\n' ' ')
+            t0=$(date +%s.%N)
+            code=$(curl -s -m 40 -o /tmp/r.json -w '%{http_code}' --data-urlencode "data=$Q" "$u/interpreter")
+            t1=$(date +%s.%N)
+            n=$(python3 -c "import json;print(len(json.load(open('/tmp/r.json'))['elements']))" 2>/dev/null || echo ERR)
+            echo "::notice::$u -> HTTP $code, elements $n, $(python3 -c "print(round($t1-$t0,1))")s | status: $st"
+          done
