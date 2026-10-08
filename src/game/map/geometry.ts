@@ -417,6 +417,12 @@ export function buildBuildings(recs: number[][], ox: number, oz: number): Buildi
     }
     // roof
     const roofCol = roof === 0 ? (rnd() < 0.5 ? ROOF_FLAT : ROOF_FLAT2) : hex(ROOF_TINTS_ZINC[Math.floor(rnd() * ROOF_TINTS_ZINC.length)]);
+    if (roof >= 3) {
+      flatRoof(Rf, pts, h, shade(tint, 0.9));
+      parapet(Rf, pts, h, shade(tint, 0.92), 0.8);
+      landmarkRoof(Rf, roof, pts, h, rnd, tint);
+      continue;
+    }
     const done = roof !== 0 && n === 4 ? hipRoof(Rf, pts, h, roofCol, roof === 2 ? 'gable' : 'hip', tint) : roof === 1 && n <= 8 && convex(pts) ? pyramidRoof(Rf, pts, h, roofCol) : false;
     if (!done) {
       flatRoof(Rf, pts, h, roofCol);
@@ -427,11 +433,6 @@ export function buildBuildings(recs: number[][], ox: number, oz: number): Buildi
         const k = Math.floor(rnd() * n);
         const tx = cx + (pts[k * 2] - cx) * 0.55, tz = cz + (pts[k * 2 + 1] - cz) * 0.55;
         tanks.push(tx, h, tz, rnd() < 0.7 ? 0 : 1);
-      }
-      if (arch === 8 && rnd() < 0.6) {
-        const [cx, cz] = centroidOf(pts);
-        const ext = Math.sqrt(Math.abs(area(pts)));
-        domes.push(cx, h, cz, Math.min(7, ext * 0.28));
       }
     }
   }
@@ -445,15 +446,6 @@ export function buildBuildings(recs: number[][], ox: number, oz: number): Buildi
   };
 }
 
-function area(p: number[]) {
-  let a = 0;
-  const n = p.length / 2;
-  for (let i = 0; i < n; i++) {
-    const j = (i + 1) % n;
-    a += p[i * 2] * p[j * 2 + 1] - p[j * 2] * p[i * 2 + 1];
-  }
-  return a / 2;
-}
 function centroidOf(p: number[]): [number, number] {
   let x = 0, z = 0;
   const n = p.length / 2;
@@ -606,6 +598,88 @@ function pyramidRoof(b: GeoBuf, pts: number[], h: number, c: RGB): boolean {
     faceTri(b, [ax, h, az], [bx, h, bz], apex, c);
   }
   return true;
+}
+
+
+/** vertical frustum (r0 at y0 -> r1 at y1), optional top cap */
+function frustum(b: GeoBuf, cx: number, cz: number, y0: number, y1: number, r0: number, r1: number, seg: number, c: RGB, top = false) {
+  const s = b.count;
+  for (let i = 0; i <= seg; i++) {
+    const a = (i / seg) * Math.PI * 2;
+    const ca = Math.cos(a), sa = Math.sin(a);
+    const slope = (r0 - r1) / Math.max(0.01, y1 - y0);
+    const nl = Math.hypot(1, slope);
+    b.v(cx + ca * r0, y0, cz + sa * r0, ca / nl, slope / nl, sa / nl, c);
+    b.v(cx + ca * r1, y1, cz + sa * r1, ca / nl, slope / nl, sa / nl, c);
+  }
+  for (let i = 0; i < seg; i++) {
+    const a = s + i * 2;
+    b.tri(a, a + 1, a + 2);
+    b.tri(a + 1, a + 3, a + 2);
+  }
+  if (top && r1 > 0.01) {
+    const ci = b.v(cx, y1, cz, 0, 1, 0, c);
+    const t0 = b.count;
+    for (let i = 0; i <= seg; i++) {
+      const a = (i / seg) * Math.PI * 2;
+      b.v(cx + Math.cos(a) * r1, y1, cz + Math.sin(a) * r1, 0, 1, 0, c);
+    }
+    for (let i = 0; i < seg; i++) b.tri(ci, t0 + i + 1, t0 + i);
+  }
+}
+
+/** hemisphere-ish dome */
+function dome(b: GeoBuf, cx: number, y: number, cz: number, r: number, c: RGB, rows = 5, seg = 14) {
+  for (let j = 0; j < rows; j++) {
+    const p0 = (j / rows) * Math.PI / 2, p1 = ((j + 1) / rows) * Math.PI / 2;
+    frustum(b, cx, cz, y + Math.sin(p0) * r, y + Math.sin(p1) * r, Math.cos(p0) * r, Math.max(0.001, Math.cos(p1) * r), seg, shade(c, 0.9 + 0.1 * (j / rows)));
+  }
+}
+
+function landmarkRoof(b: GeoBuf, kind: number, pts: number[], h: number, rnd: () => number, tint: RGB) {
+  const [cx, cz] = centroidOf(pts);
+  const n = pts.length / 2;
+  let rMean = 0;
+  for (let i = 0; i < n; i++) rMean += Math.hypot(pts[i * 2] - cx, pts[i * 2 + 1] - cz);
+  rMean /= n;
+  if (kind === 3) {
+    // mosque: green dome + gold finial + a minaret at the corner furthest from the centre
+    const r = Math.min(9, rMean * 0.45);
+    frustum(b, cx, cz, h, h + r * 0.35, r, r, 16, hex('#e8e2d2'));
+    dome(b, cx, h + r * 0.35, cz, r, hex('#2f8a5a'));
+    frustum(b, cx, cz, h + r * 1.35, h + r * 1.35 + 1.4, 0.18, 0.02, 6, hex('#d8b240'));
+    let far = 0, fi = 0;
+    for (let i = 0; i < n; i++) {
+      const d = Math.hypot(pts[i * 2] - cx, pts[i * 2 + 1] - cz);
+      if (d > far) { far = d; fi = i; }
+    }
+    const mx = cx + (pts[fi * 2] - cx) * 0.85, mz = cz + (pts[fi * 2 + 1] - cz) * 0.85;
+    const mh = h + Math.max(14, r * 3);
+    frustum(b, mx, mz, 0, mh, 1.5, 1.2, 8, hex('#efe9da'));
+    frustum(b, mx, mz, mh, mh + 1.2, 2.0, 2.0, 8, hex('#e2dccb'), true);
+    frustum(b, mx, mz, mh + 1.2, mh + 4.5, 1.1, 0.05, 8, hex('#2f8a5a'));
+  } else if (kind === 4) {
+    // church: steeple on the end furthest from the centre
+    let far = 0, fi = 0;
+    for (let i = 0; i < n; i++) {
+      const d = Math.hypot(pts[i * 2] - cx, pts[i * 2 + 1] - cz);
+      if (d > far) { far = d; fi = i; }
+    }
+    const tx = cx + (pts[fi * 2] - cx) * 0.7, tz = cz + (pts[fi * 2 + 1] - cz) * 0.7;
+    const th = h + Math.max(10, rMean * 0.9);
+    box(b, tx, 0, tz, 5, th, 5, tint);
+    frustum(b, tx, tz, th, th + 9, 3.6, 0.1, 4, hex('#5d4a3e'));
+    frustum(b, tx, tz, th + 9, th + 10.5, 0.1, 0.1, 4, hex('#d8b240'));
+  } else if (kind === 5) {
+    // National Arts Theatre (Iganmu): the famous "military cap" silhouette
+    const R = rMean;
+    const white = hex('#e9e6dd'), band = hex('#7d8b94');
+    frustum(b, cx, cz, h, h + 1.2, R * 1.1, R * 1.16, 32, band);
+    frustum(b, cx, cz, h + 1.2, h + 8, R * 1.16, R * 0.66, 32, white);
+    frustum(b, cx, cz, h + 8, h + 15, R * 0.66, R * 0.6, 32, hex('#d9d4c6'));
+    frustum(b, cx, cz, h + 15, h + 17, R * 0.6, R * 0.2, 32, white, true);
+    void rnd;
+  }
 }
 
 // ------------------------------------------------------------------ walls / fences

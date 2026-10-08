@@ -322,7 +322,7 @@ export function LagosMap() {
     const focus = worldState.focus;
     st.lastScan -= dt;
     const low = quality;
-    const LOAD_R = low ? 620 : 820;
+    const LOAD_R = low ? 600 : 860;
     const DETAIL_R = low ? 220 : 320;
     const PHYS_R = 260;
     if (st.lastScan <= 0 && st.worker) {

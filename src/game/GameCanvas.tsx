@@ -135,6 +135,17 @@ function Perf() {
   return null;
 }
 
+/** fog hides the edge of the streamed area (tighter when running in low-power mode) */
+function FogControl() {
+  const { scene } = useThree();
+  const lowPower = useGame((s) => s.lowPower);
+  useEffect(() => {
+    const isMobile = /iPhone|iPad|Android|Mobile/i.test(navigator.userAgent);
+    scene.fog = new THREE.Fog(HAZE, lowPower ? 160 : 220, lowPower ? 800 : isMobile ? 1050 : 1150);
+  }, [scene, lowPower]);
+  return null;
+}
+
 function CameraDrag() {
   const { gl } = useThree();
   useEffect(() => installCameraDrag(gl.domElement), [gl]);
@@ -157,7 +168,6 @@ export function GameCanvas({ spawn }: { spawn: { x: number; z: number; heading: 
         (window as unknown as { __scene: THREE.Scene }).__scene = scene;
         gl.toneMapping = THREE.ACESFilmicToneMapping;
         gl.toneMappingExposure = 1.02;
-        scene.fog = new THREE.Fog(HAZE, 260, lowPower || isMobile ? 1100 : 1500);
         scene.background = new THREE.Color(HAZE);
       }}
     >
@@ -181,6 +191,7 @@ export function GameCanvas({ spawn }: { spawn: { x: number; z: number; heading: 
         <Npcs />
       </Suspense>
       <CameraDrag />
+      <FogControl />
       <Perf />
     </Canvas>
   );

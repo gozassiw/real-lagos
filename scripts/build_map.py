@@ -786,6 +786,18 @@ def classify_building(t, area, prof, lu, rnd):
     return ARCH[arch], h, lv, roof
 
 
+# Art direction for well-known landmarks whose OSM tags under-describe them (heights from public sources).
+# roof codes: 0 flat, 1 hip, 2 gable/industrial, 3 mosque dome + minaret, 4 church steeple, 5 National Theatre cap
+LANDMARKS = {
+    'way/10561268': {'levels': 32, 'height': 131, 'arch': 'tower'},  # NECOM House, Lagos Island
+    'way/88264239': {'levels': 12, 'height': 40},  # Eko Hotel main block
+    'way/217574079': {'levels': 3, 'height': 14, 'arch': 'civic', 'roof': 5},  # National Arts Theatre, Iganmu
+    'way/704783391': {'arch': 'worship', 'roof': 3},  # Lagos Central Mosque
+    'way/669975482': {'arch': 'worship', 'roof': 4, 'height': 14},  # Cathedral Church of Christ, Marina
+    'way/381370025': {'arch': 'worship', 'roof': 4, 'height': 13},  # Holy Cross Cathedral
+}
+
+
 def build_buildings(raw, regions, places, landuse, chunks, report, poi_buildings):
     total = 0
     skipped = 0
@@ -822,6 +834,17 @@ def build_buildings(raw, regions, places, landuse, chunks, report, poi_buildings
                     if 0 <= i < lu_img.shape[0] and 0 <= j < lu_img.shape[1]:
                         lu = inv_lu.get(int(lu_img[i, j]))
                 arch, h, lv, roof = classify_building(t, area, prof, lu, rnd)
+                name_l = (t.get('name') or '').lower()
+                if arch == ARCH['worship'] and (t.get('building') == 'mosque' or t.get('religion') == 'muslim' or 'mosque' in name_l):
+                    roof = 3
+                elif arch == ARCH['worship'] and (t.get('building') in ('church', 'cathedral', 'chapel') or t.get('religion') == 'christian' or re.search('church|cathedral|chapel', name_l)):
+                    roof = 4
+                lm = LANDMARKS.get(f"{el['type']}/{el['id']}")
+                if lm:
+                    arch = ARCH[lm['arch']] if 'arch' in lm else arch
+                    lv = lm.get('levels', lv)
+                    h = lm.get('height', h if 'levels' not in lm else lv * 3.4)
+                    roof = lm.get('roof', roof)
                 ck = (math.floor(cx / CHUNK), math.floor(cz / CHUNK))
                 ox, oz = ck[0] * CHUNK, ck[1] * CHUNK
                 rec = [arch, int(round(h * 10)), lv, roof, seed_of(el['id']) % 997, len(pts)]
