@@ -1,0 +1,138 @@
+Area core 6.395,3.325,6.555,3.505
+  ✓ core buildings tile 1/12 via maps.mail.ru: 21693 elements, 12.7 MB, 24s
+  ✓ core buildings tile 2/12 via maps.mail.ru: 19337 elements, 11.3 MB, 15s
+  ✗ core buildings tile 3/12 attempt 1 (maps.mail.ru): HTTP 504: <html>
+<head><title>504 Gateway Time-out</title></head>
+<body>
+<center><h1>504 Gateway Time-out</h1></center>
+<hr><center>nginx</center>
+</body>
+</html>
+
+  ✓ core buildings tile 3/12 via overpass.private.coffee: 5527 elements, 3.3 MB, 3s
+  ✗ core buildings tile 4/12 attempt 1 (maps.mail.ru): HTTP 504: <html>
+<head><title>504 Gateway Time-out</title></head>
+<body>
+<center><h1>504 Gateway Time-out</h1></center>
+<hr><center>nginx</center>
+</body>
+</html>
+
+  ✗ core buildings tile 4/12 attempt 2 (overpass.private.coffee): HTTP 500: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>Internal Server Error</h1>
+
+  ✓ core buildings tile 4/12 via maps.mail.ru: 0 elements, 0.0 MB, 17s
+  ✗ core buildings tile 5/12 attempt 1 (maps.mail.ru): HTTP 504: <html>
+<head><title>504 Gateway Time-out</title></head>
+<body>
+<center><h1>504 Gateway Time-out</h1></center>
+<hr><center>nginx</center>
+</body>
+</html>
+
+  ✗ core buildings tile 5/12 attempt 2 (overpass.private.coffee): HTTP 500: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>Internal Server Error</h1>
+
+  ✓ core buildings tile 5/12 via maps.mail.ru: 0 elements, 0.0 MB, 18s
+  ✗ core buildings tile 6/12 attempt 1 (maps.mail.ru): HTTP 504: <html>
+<head><title>504 Gateway Time-out</title></head>
+<body>
+<center><h1>504 Gateway Time-out</h1></center>
+<hr><center>nginx</center>
+</body>
+</html>
+
+  ✗ core buildings tile 6/12 attempt 2 (overpass.private.coffee): HTTP 500: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>Internal Server Error</h1>
+
+  ✗ core buildings tile 6/12 attempt 3 (maps.mail.ru): HTTP 504: <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/x
+  ✗ core buildings tile 6/12 attempt 4 (maps.mail.ru): HTTP 504: <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/x
+  ✗ core buildings tile 6/12 attempt 5 (overpass.private.coffee): HTTP 500: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>Internal Server Error</h1>
+
+  ✓ core buildings tile 6/12 via maps.mail.ru: 1142 elements, 0.6 MB, 18s
+  ✓ core buildings tile 7/12 via maps.mail.ru: 5294 elements, 3.2 MB, 25s
+  ✓ core buildings tile 8/12 via maps.mail.ru: 4592 elements, 2.8 MB, 19s
+  ✓ core buildings tile 9/12 via maps.mail.ru: 2831 elements, 1.6 MB, 14s
+  ✗ core buildings tile 10/12 attempt 1 (maps.mail.ru): HTTP 504: <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/x
+  ✗ core buildings tile 10/12 attempt 2 (overpass.private.coffee): HTTP 500: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>Internal Server Error</h1>
+
+  ✗ core buildings tile 10/12 attempt 3 (maps.mail.ru): HTTP 504: <html>
+<head><title>504 Gateway Time-out</title></head>
+<body>
+<center><h1>504 Gateway Time-out</h1></center>
+<hr><center>nginx</center>
+</body>
+</html>
+
+  ✗ core buildings tile 10/12 attempt 4 (maps.mail.ru): HTTP 504: <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/x
+  ✗ core buildings tile 10/12 attempt 5 (overpass.private.coffee): HTTP 500: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>Internal Server Error</h1>
+
+  ✗ core buildings tile 10/12 attempt 6 (maps.mail.ru): HTTP 504: <html>
+<head><title>504 Gateway Time-out</title></head>
+<body>
+<center><h1>504 Gateway Time-out</h1></center>
+<hr><center>nginx</center>
+</body>
+</html>
+
+  ✗ core buildings tile 10/12 attempt 7 (maps.mail.ru): HTTP 504: <html>
+<head><title>504 Gateway Time-out</title></head>
+<body>
+<center><h1>504 Gateway Time-out</h1></center>
+<hr><center>nginx</center>
+</body>
+</html>
+
+  ✗ core buildings tile 10/12 attempt 8 (overpass.private.coffee): HTTP 500: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>Internal Server Error</h1>
+
+  ✓ core buildings tile 10/12 via maps.mail.ru: 0 elements, 0.0 MB, 14s
+  ✗ core buildings tile 11/12 attempt 1 (maps.mail.ru): HTTP 504: <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/x
+  ✗ core buildings tile 11/12 attempt 2 (overpass.private.coffee): HTTP 500: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>Internal Server Error</h1>
+
+  ✓ core buildings tile 11/12 via maps.mail.ru: 78 elements, 0.0 MB, 19s
+  ✓ core buildings tile 12/12 via maps.mail.ru: 1774 elements, 1.0 MB, 19s
+::notice::OSM export complete — core_buildings_p3:61773

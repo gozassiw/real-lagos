@@ -1,0 +1,26 @@
+{
+  "source": "OpenStreetMap via Overpass API",
+  "license": "ODbL 1.0 — © OpenStreetMap contributors",
+  "areas": {
+    "core": {
+      "s": 6.395,
+      "w": 3.325,
+      "n": 6.555,
+      "e": 3.505
+    },
+    "ikeja": {
+      "s": 6.575,
+      "w": 3.325,
+      "n": 6.625,
+      "e": 3.375
+    }
+  },
+  "files": {
+    "core_buildings_p3": {
+      "elements": 61773,
+      "osm_base": "2026-10-08T21:18:20Z"
+    }
+  },
+  "exported_at": "2026-10-08T21:20:05.949Z",
+  "failures": []
+}
