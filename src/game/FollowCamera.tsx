@@ -69,6 +69,7 @@ export function FollowCamera() {
     tmp.set(focus.x, focus.y + headY, focus.z);
     if (!s.init) {
       s.target.copy(tmp);
+      s.yaw = worldState.camYaw;
       s.init = true;
     }
     const k = 1 - Math.exp(-dt * (riding ? 6 : 14));

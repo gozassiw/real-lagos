@@ -47,8 +47,11 @@ jobs:
         with:
           path: dist
 
+  # Works when Settings → Pages → Source is "GitHub Actions". With "Deploy from a branch: gh-pages" the build job
+  # above already published the site, so a failure here is not fatal.
   deploy:
     needs: build
+    continue-on-error: true
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -60,9 +63,10 @@ jobs:
         uses: actions/deploy-pages@v4
 
   verify:
-    needs: deploy
+    needs: [build, deploy]
+    if: always() && needs.build.result == 'success'
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -72,12 +76,23 @@ jobs:
         run: |
           npm i --no-save --no-package-lock playwright@1
           npx playwright install --with-deps chromium
-      - name: Smoke test the live URL (iPhone emulation + desktop)
-        env:
-          URL: ${{ needs.deploy.outputs.url }}
-        run: node scripts/qa/smoke.mjs "$URL" qa-out
+      - name: Wait for the site to be live
+        id: live
+        run: |
+          URL="${{ needs.deploy.outputs.url }}"
+          [ -z "$URL" ] && URL="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/"
+          echo "url=$URL" >> "$GITHUB_OUTPUT"
+          for i in $(seq 1 30); do
+            code=$(curl -s -o /dev/null -w '%{http_code}' "${URL}data/lagos/manifest.json")
+            [ "$code" = "200" ] && echo "live=yes" >> "$GITHUB_OUTPUT" && echo "::notice::Live at $URL" && exit 0
+            sleep 10
+          done
+          echo "::warning::$URL is not live yet (GitHub Pages not enabled?) — skipping the smoke test"
+      - name: Smoke test the live URL (iPhone emulation)
+        if: steps.live.outputs.live == 'yes'
+        run: node scripts/qa/smoke.mjs "${{ steps.live.outputs.url }}" qa-out
       - name: Publish screenshots to the qa branch
-        if: always()
+        if: always() && steps.live.outputs.live == 'yes'
         run: |
           mkdir -p qa-out && cd qa-out
           git init -b qa

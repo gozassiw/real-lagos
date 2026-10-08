@@ -24,8 +24,10 @@ jobs:
       - uses: actions/checkout@v4
       - name: HTTP check
         run: |
-          code=$(curl -s -o /tmp/index.html -w '%{http_code}' -L "${{ inputs.url }}")
-          m=$(curl -s -o /dev/null -w '%{http_code}' -L "${{ inputs.url }}data/lagos/manifest.json")
+          URL="${{ inputs.url }}"
+          BASE="${URL%index.html}"
+          code=$(curl -s -o /tmp/index.html -w '%{http_code}' -L "$URL")
+          m=$(curl -s -o /dev/null -w '%{http_code}' -L "${BASE}data/lagos/manifest.json")
           echo "::notice::${{ inputs.url }} -> HTTP $code; manifest -> HTTP $m; title: $(grep -o '<title>[^<]*' /tmp/index.html | head -1)"
       - uses: actions/setup-node@v4
         if: inputs.smoke == 'true'

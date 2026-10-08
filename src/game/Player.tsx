@@ -70,6 +70,8 @@ export function Player({ spawn }: { spawn: { x: number; z: number; heading: numb
   useEffect(() => {
     worldState.player.set(spawn.x, 0.1, spawn.z);
     worldState.focus.copy(worldState.player);
+    worldState.playerHeading = spawn.heading;
+    worldState.camYaw = spawn.heading + Math.PI; // start behind the character
   }, [spawn]);
 
   const desired = new THREE.Vector3();
