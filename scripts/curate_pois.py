@@ -23,43 +23,44 @@ def ll(x, z):
     return (ORIGIN_LAT - z / M_LAT, ORIGIN_LON + x / M_LON)
 
 
-# kind, id, zone, label, search: (regex on name, category regex, near lat, lon, radius m), params
+# Every gameplay spot is anchored to a specific real OSM feature (name, type/id, its lat/lon). The marker is then
+# nudged out of any building onto the street side. `search` is only a fallback if the anchor is missing.
 SPOTS = [
-    # ---- Ikoyi (home, danfo)
-    dict(id='ikoyi-home', kind='home', zone='Ikoyi', label='Your flat', search=(None, r'building=(apartments|residential)|^building', 6.4466, 3.4328, 260), building=True),
-    dict(id='stop-falomo', kind='danfo', zone='Ikoyi', label='Falomo bus stop', search=(r'falomo', r'highway=bus_stop|public_transport', 6.4440, 3.4300, 700)),
-    # ---- Victoria Island (office job, food)
-    dict(id='vi-office', kind='work', zone='Victoria Island', label='VI office', search=(r'.', r'office=|building=office|building=commercial', 6.4335, 3.4225, 450), pay=2000, energy=18, seconds=4),
-    dict(id='vi-suya', kind='eat', zone='Victoria Island', label='Suya spot', search=(r'.', r'amenity=(fast_food|restaurant|cafe)', 6.4320, 3.4220, 600), price=1500, meal='Suya & cold zobo', hunger=40),
-    dict(id='stop-vi', kind='danfo', zone='Victoria Island', label='Ozumba Mbadiwe bus stop', search=(r'ozumba|mbadiwe|vi\b|victoria|bonny|ahmadu|1004|bar beach', r'highway=bus_stop|public_transport', 6.4350, 3.4290, 900)),
-    # ---- Lagos Island (market, danfo)
-    dict(id='balogun', kind='shop', zone='Lagos Island', label='Balogun Market', search=(r'balogun', r'marketplace|shop|amenity', 6.4552, 3.3890, 900), items=[
+    # ---- Ikoyi: home + iconic suya + danfo
+    dict(id='ikoyi-home', kind='home', zone='Ikoyi', label='Your flat · Falomo Close', anchor=('Falomo Close', 'way/129730330', 6.44451, 3.43975)),
+    dict(id='ikoyi-suya', kind='eat', zone='Ikoyi', label='Glover Court Suya', anchor=('Glover Court Suya', 'node/4946299659', 6.452123, 3.435486), price=1500, meal='Suya & cold zobo', hunger=40),
+    dict(id='stop-falomo', kind='danfo', zone='Ikoyi', label='Falomo bus stop', anchor=('Falomo (bus stop)', 'node/5661711556', 6.444413, 3.426035)),
+    dict(id='stop-obalende', kind='danfo', zone='Obalende', label='Obalende motor park', anchor=('Obalende Motor Park', 'node/4755897332', 6.449635, 3.407376)),
+    # ---- Victoria Island: office job + food
+    dict(id='vi-office', kind='work', zone='Victoria Island', label='Office shift · Civic Towers', anchor=('Civic Towers', 'way/531627775', 6.439918, 3.429473), pay=2000, energy=18, seconds=4),
+    dict(id='vi-food', kind='eat', zone='Victoria Island', label='Mama Cass', anchor=('Mama Cass', 'node/1513600883', 6.431264, 3.432662), price=1800, meal='Jollof rice & chicken', hunger=50),
+    # ---- Lagos Island: Balogun market + buka + danfo
+    dict(id='balogun', kind='shop', zone='Lagos Island', label='Balogun Market', anchor=('Balogun Street', 'way/215113173', 6.455758, 3.383674), items=[
         dict(id='ankara', name='Ankara fabric (6 yards)', price=3000),
         dict(id='charger', name='Phone charger', price=1500),
         dict(id='slippers', name='Pam slippers', price=800),
         dict(id='aso-oke', name='Aso-oke cap', price=2500),
         dict(id='speaker', name='Small Bluetooth speaker', price=4500),
     ]),
-    dict(id='island-buka', kind='eat', zone='Lagos Island', label='Mama Put buka', search=(r'.', r'amenity=(restaurant|fast_food)', 6.4545, 3.3920, 700), price=1000, meal='Rice & ofada stew', hunger=45),
-    dict(id='stop-cms', kind='danfo', zone='Lagos Island', label='CMS bus stop', search=(r'\bcms\b|marina|idumota|tinubu', r'highway=bus_stop|public_transport', 6.4515, 3.3925, 900)),
-    # ---- Yaba (tech / student work, buka, danfo)
-    dict(id='yaba-hub', kind='work', zone='Yaba', label='Yaba tech hub', search=(r'hub|tech|cchub|co-creation|andela|innovation|herbert macaulay', r'office|building|amenity|shop', 6.5070, 3.3780, 700), pay=2500, energy=20, seconds=4.5),
-    dict(id='yaba-buka', kind='eat', zone='Yaba', label='Yaba buka', search=(r'.', r'amenity=(restaurant|fast_food)', 6.5060, 3.3790, 700), price=1200, meal='Amala, ewedu & gbegiri', hunger=45),
-    dict(id='stop-yaba', kind='danfo', zone='Yaba', label='Yaba bus stop', search=(r'yaba|tejuosho|sabo|ojuelegba|jibowu', r'highway=bus_stop|public_transport', 6.5045, 3.3765, 900)),
-    # ---- Lekki Phase 1 (lounge, food, danfo)
-    dict(id='lekki-lounge', kind='social', zone='Lekki Phase 1', label='Admiralty Way lounge', search=(r'.', r'amenity=(bar|pub|nightclub)|leisure=dance', 6.4470, 3.4725, 900), price=1000),
-    dict(id='lekki-food', kind='eat', zone='Lekki Phase 1', label='Lekki restaurant', search=(r'.', r'amenity=(restaurant|fast_food|cafe)', 6.4480, 3.4710, 900), price=2000, meal='Jollof rice & plantain', hunger=50),
-    dict(id='stop-lekki', kind='danfo', zone='Lekki Phase 1', label='Lekki Phase 1 bus stop', search=(r'lekki|admiralty|phase|oniru|chevron|toll', r'highway=bus_stop|public_transport', 6.4400, 3.4650, 1400)),
-    # ---- Surulere (danfo)
-    dict(id='stop-ojuelegba', kind='danfo', zone='Surulere', label='Ojuelegba bus stop', search=(r'ojuelegba|surulere|stadium|barracks|lawanson|ojuelegba', r'highway=bus_stop|public_transport', 6.5090, 3.3650, 1200)),
+    dict(id='island-buka', kind='eat', zone='Lagos Island', label='Mama Put buka · Idumota', anchor=('Idumota (bus stop)', 'node/2541613435', 6.46294, 3.386691), price=1000, meal='Rice & ofada stew', hunger=45),
+    dict(id='stop-cms', kind='danfo', zone='Lagos Island', label='CMS bus stop', anchor=('Marina/CMS', 'node/6274484744', 6.449149, 3.389803)),
+    # ---- Yaba: tech / student work + buka + danfo
+    dict(id='yaba-hub', kind='work', zone='Yaba', label='Gig at Co-Creation Hub', anchor=('Co-Creation Hub, Nigeria', 'node/3631633695', None, None), search=(r'co-creation', r'office', 6.5070, 3.3780, 900), pay=2500, energy=20, seconds=4.5),
+    dict(id='yaba-buka', kind='eat', zone='Yaba', label='Mama Put buka · Tejuosho', anchor=('Tejuosho Shopping Centre', 'way/671850898', 6.508149, 3.369753), price=1200, meal='Amala, ewedu & gbegiri', hunger=45),
+    dict(id='stop-yaba', kind='danfo', zone='Yaba', label='Yaba bus terminal', anchor=('Yaba Bus Terminal', 'way/707609369', 6.510815, 3.370799)),
+    dict(id='stop-surulere', kind='danfo', zone='Surulere', label='Stadium bus stop', anchor=('Teslim Balogun Stadium', 'way/1434311438', 6.499705, 3.360769)),
+    # ---- Lekki Phase 1: lounge + food + danfo (toll gate)
+    dict(id='lekki-lounge', kind='social', zone='Lekki Phase 1', label='H21 Lounge', anchor=('H21 Apartments and Lounge', 'way/930433197', 6.440871, 3.463589), price=1000),
+    dict(id='lekki-food', kind='eat', zone='Lekki Phase 1', label='Tantalizers', anchor=('Tantalizers', 'node/1523336782', None, None), search=(r'tantalizers', r'amenity', 6.4480, 3.4710, 1200), price=2000, meal='Jollof rice & plantain', hunger=50),
+    dict(id='stop-lekki', kind='danfo', zone='Lekki Phase 1', label='Lekki toll gate bus stop', anchor=('Admiralty Toll Plaza', 'way/216689333', 6.435933, 3.447211)),
     # ---- Ikeja (separate district chunk)
-    dict(id='computer-village', kind='shop', zone='Ikeja', label='Computer Village', search=(r'computer village|otigba|ola ayeni|pepple', r'shop|marketplace|amenity|building', 6.5950, 3.3415, 900), items=[
+    dict(id='computer-village', kind='shop', zone='Ikeja', label='Computer Village', anchor=(None, None, None, None), search=(r'computer village|otigba|ola ayeni|pepple', r'.', 6.5950, 3.3415, 1200), items=[
         dict(id='earbuds', name='Wireless earbuds', price=3500),
         dict(id='powerbank', name='Power bank 20,000 mAh', price=6000),
         dict(id='screen-guard', name='Screen guard (fixed)', price=1000),
         dict(id='sim', name='New SIM card', price=500),
     ]),
-    dict(id='stop-ikeja', kind='danfo', zone='Ikeja', label='Ikeja Along bus stop', search=(r'ikeja|allen|along|obafemi|awolowo', r'highway=bus_stop|public_transport', 6.6040, 3.3500, 1500)),
+    dict(id='stop-ikeja', kind='danfo', zone='Ikeja', label='Ikeja Along bus stop', anchor=(None, None, None, None), search=(r'ikeja|along|allen|obafemi', r'bus|public_transport|highway', 6.6040, 3.3500, 1500)),
 ]
 
 
@@ -157,39 +158,43 @@ def main():
     terr = Terrain(a.data, manifest)
     out = []
     for s in SPOTS:
-        name_re, cat_re, lat, lon, rad = s['search']
-        cx, cz = xz(lat, lon)
+        aname, aosm, alat, alon = s.get('anchor', (None, None, None, None))
         cands = []
-        for p in pois:
-            d = math.hypot(p['x'] - cx, p['z'] - cz)
-            if d > rad:
-                continue
-            if cat_re and not re.search(cat_re, p['cat']):
-                continue
-            if name_re and not re.search(name_re, p['name'] or '', re.I):
-                continue
-            score = d - (300 if name_re and name_re != '.' and re.search(name_re, p['name'] or '', re.I) else 0) - (60 if p['name'] else 0)
-            cands.append((score, d, p['name'], p['cat'], p['x'], p['z'], p['id']))
-        if s.get('building') or not cands:
+        if alat is None and aosm:
+            # look the anchor up by OSM id
+            for p in pois:
+                if p['id'] == aosm:
+                    alat, alon = p['lat'], p['lon']
+        if alat is not None:
+            x, z = xz(alat, alon)
+            cands = [(0, 0, aname, aosm, x, z, aosm)]
+        elif s.get('search'):
+            name_re, cat_re, lat, lon, rad = s['search']
+            cx, cz = xz(lat, lon)
+            for p in pois:
+                d = math.hypot(p['x'] - cx, p['z'] - cz)
+                if d > rad or not re.search(cat_re, p['cat']) or not re.search(name_re, p['name'] or '', re.I):
+                    continue
+                cands.append((d, d, p['name'], p['cat'], p['x'], p['z'], p['id']))
             for b in named_b:
                 d = math.hypot(b['x'] - cx, b['z'] - cz)
-                if d > rad:
-                    continue
-                if name_re and name_re != '.' and not re.search(name_re, b['name'], re.I):
-                    continue
-                cands.append((d + 40, d, b['name'], 'building=' + str(b.get('building')), b['x'], b['z'], b['osm']))
-        cands.sort()
+                if d < rad and re.search(name_re, b['name'], re.I):
+                    cands.append((d + 40, d, b['name'], 'building', b['x'], b['z'], b['osm']))
+            cands.sort()
         if a.list:
-            print(f"\n== {s['id']} ({s['zone']})")
-            for c in cands[:8]:
-                print(f'   {c[1]:6.0f} m  {c[2]!r:40} {c[3]:28} {c[6]}')
+            print(f"== {s['id']}: {cands[:3]}")
             continue
         if cands:
             _, _, nm, cat, x, z, osm = cands[0]
-            place = nm or cat
-        else:
-            x, z, osm, place = cx, cz, None, 'OSM location'
+            place = f'{nm} ({osm})' if nm else str(cat)
+        elif s.get('search'):
+            _, _, lat, lon, _ = s['search']
+            x, z = xz(lat, lon)
+            osm, place = None, 'reference point'
             print(f"  ! {s['id']}: no OSM match, using reference point")
+        else:
+            print(f"  ! {s['id']}: skipped (no anchor)")
+            continue
         # move the marker out of any building, onto the street side
         blds = load_buildings_near(a.data, x, z, 80)
         heading = 0.0
@@ -220,11 +225,8 @@ def main():
             if r:
                 x, z = x + (r[1] - x) * 0.25, z + (r[2] - z) * 0.25
         la, lo = ll(x, z)
-        rec = {k: v for k, v in s.items() if k not in ('search', 'label', 'building')}
-        rec.update({'name': s['label'] if not (s['kind'] == 'danfo' and cands and cands[0][2]) else (cands[0][2] if 'stop' in cands[0][2].lower() or 'park' in cands[0][2].lower() else cands[0][2] + ' bus stop'),
-                    'place': place, 'x': round(x, 2), 'z': round(z, 2), 'lat': round(la, 6), 'lon': round(lo, 6), 'heading': round(heading, 3), 'osm': osm})
-        if s['kind'] in ('work', 'eat', 'social', 'shop') and cands and cands[0][2]:
-            rec['name'] = f"{s['label']} · {cands[0][2]}" if s['kind'] != 'shop' or not re.search(name_re or 'x', cands[0][2], re.I) else cands[0][2]
+        rec = {k: v for k, v in s.items() if k not in ('search', 'label', 'building', 'anchor')}
+        rec.update({'name': s['label'], 'place': place, 'x': round(x, 2), 'z': round(z, 2), 'lat': round(la, 6), 'lon': round(lo, 6), 'heading': round(heading, 3), 'osm': osm})
         out.append(rec)
         print(f"  {s['id']:18} -> {rec['name']!r:48} {la:.5f},{lo:.5f}  ({place})")
     if a.list:

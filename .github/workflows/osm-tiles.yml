@@ -1,0 +1,52 @@
+# Re-fetch a range of building tiles (one file per tile) in parallel jobs; pushed to osm-raw-tiles-<name>.
+name: OSM building tiles
+
+on:
+  workflow_dispatch:
+    inputs:
+      ranges:
+        description: 'JSON list of tile ranges, e.g. ["12:16","16:20","20:24"]'
+        required: true
+        default: '["12:16","16:20","20:24"]'
+      area:
+        description: core or ikeja
+        required: true
+        default: core
+
+permissions:
+  contents: write
+
+jobs:
+  tiles:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    strategy:
+      fail-fast: false
+      matrix:
+        range: ${{ fromJSON(inputs.ranges) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Fetch tiles
+        env:
+          OVERPASS_ENDPOINTS: "https://maps.mail.ru/osm/tools/overpass/api/interpreter,https://overpass.private.coffee/api/interpreter"
+        run: |
+          mkdir -p out
+          node scripts/fetch-osm.mjs --out out --only ${{ inputs.area }} --layers buildings --tile-range ${{ matrix.range }} 2>&1 | tee out/export-tiles.log || true
+          N=$(echo "${{ matrix.range }}" | tr ':' '-')
+          mv out/manifest.json out/manifest-tiles-$N.json || true
+          mv out/export-tiles.log out/export-tiles-$N.log
+          ls -la out
+      - name: Push
+        if: always()
+        run: |
+          N=$(echo "${{ inputs.area }}-${{ matrix.range }}" | tr ':' '-')
+          cd out
+          git init -b osm-raw-tiles-$N
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "OSM building tiles ${{ matrix.range }} — © OpenStreetMap contributors (ODbL)"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" HEAD:osm-raw-tiles-$N

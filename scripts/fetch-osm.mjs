@@ -154,29 +154,30 @@ async function main() {
       if (layer === 'places') continue;
       try {
       if (layer === 'buildings') {
-        let ts = tiles(b, 0.03);
+        // one file per tile, so a failed tile never loses the others and re-runs only fetch what is missing
+        const all = tiles(b, 0.03);
+        let idx = all.map((_, i) => i);
         if (args['tile-range']) {
           const [a0, a1] = String(args['tile-range']).split(':').map(Number);
-          ts = ts.slice(a0, a1);
+          idx = idx.slice(a0, a1);
         }
-        const merged = { elements: [], osm3s: null };
-        const seen = new Set();
-        for (let i = 0; i < ts.length; i++) {
-          const t = ts[i];
-          const q = `${head}(way["building"](${bb(t)});rel["building"](${bb(t)}););out body geom qt;`;
-          const j = await overpass(q, `${area} buildings tile ${i + 1}/${ts.length}`);
-          merged.osm3s = j.osm3s;
-          for (const el of j.elements) {
-            const k = el.type + el.id;
-            if (seen.has(k)) continue;
-            seen.add(k);
-            merged.elements.push(el);
+        let failed = 0;
+        for (const i of idx) {
+          const name = `${area}_buildings_t${String(i).padStart(2, '0')}`;
+          if (existsSync(path.join(OUT, name + '.json.gz'))) continue;
+          const t = all[i];
+          try {
+            const q = `${head}(way["building"](${bb(t)});rel["building"](${bb(t)}););out body geom qt;`;
+            const j = await overpass(q, `${area} buildings tile ${i + 1}/${all.length}`);
+            await save(name, j);
+            manifest.files[name] = { elements: j.elements.length, osm_base: j.osm3s?.timestamp_osm_base };
+          } catch (e) {
+            failed++;
+            failures.push(name);
+            console.log(`::warning::OSM ${name} failed: ${String(e.message || e).slice(0, 160)}`);
           }
-          await sleep(2000);
+          await sleep(1500);
         }
-        const suffix = args.suffix ? String(args.suffix) : '';
-        await save(`${area}_buildings${suffix}`, merged);
-        manifest.files[`${area}_buildings${suffix}`] = { elements: merged.elements.length, osm_base: merged.osm3s?.timestamp_osm_base };
         continue;
       }
       const j = await overpass(LAYERS[layer](b), `${area} ${layer}`);

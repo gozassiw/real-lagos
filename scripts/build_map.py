@@ -53,7 +53,7 @@ def ll(x, z):
 def load(raw, name):
     """Load an export; also merges split parts such as core_buildings_p1.json.gz, core_buildings_p2..."""
     paths = [os.path.join(raw, name + '.json.gz')] if os.path.exists(os.path.join(raw, name + '.json.gz')) else []
-    paths += sorted(os.path.join(raw, f) for f in os.listdir(raw) if f.startswith(name + '_p') and f.endswith('.json.gz'))
+    paths += sorted(os.path.join(raw, f) for f in os.listdir(raw) if (f.startswith(name + '_p') or f.startswith(name + '_t')) and f.endswith('.json.gz'))
     if not paths:
         print('  (missing', name, ')')
         return {'elements': []}
@@ -842,9 +842,9 @@ def build_barriers(raw, regions, chunks):
 def build_trees(regions, landuse, terrain_water, chunks, raw):
     """Scatter trees on vegetated landuse cells (and OSM natural=tree nodes), away from buildings and roads."""
     n = 0
-    dens = {LU_CLASSES['grass']: 0.01, LU_CLASSES['wood']: 0.04, LU_CLASSES['wetland']: 0.022, LU_CLASSES['residential']: 0.0011,
-            LU_CLASSES['school']: 0.003, LU_CLASSES['farmland']: 0.006, LU_CLASSES['cemetery']: 0.008, LU_CLASSES['urban']: 0.00028,
-            LU_CLASSES['military']: 0.005}
+    dens = {LU_CLASSES['grass']: 0.006, LU_CLASSES['wood']: 0.022, LU_CLASSES['wetland']: 0.012, LU_CLASSES['residential']: 0.0005,
+            LU_CLASSES['school']: 0.002, LU_CLASSES['farmland']: 0.004, LU_CLASSES['cemetery']: 0.005, LU_CLASSES['urban']: 0.00012,
+            LU_CLASSES['military']: 0.003}
     for region in regions:
         if region not in landuse:
             continue
