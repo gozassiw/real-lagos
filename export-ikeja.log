@@ -1,0 +1,195 @@
+Area ikeja 6.575,3.325,6.625,3.375
+  ✗ ikeja roads attempt 1 (overpass.private.coffee): HTTP 500: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>Internal Server Error</h1>
+
+  ✗ ikeja roads attempt 2 (maps.mail.ru): HTTP 504: <html>
+<head><title>504 Gateway Time-out</title></head>
+<body>
+<center><h1>504 Gateway Time-out</h1></center>
+<hr><center>nginx</center>
+</body>
+</html>
+
+  ✗ ikeja roads attempt 3 (overpass.private.coffee): HTTP 500: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>Internal Server Error</h1>
+
+  ✗ ikeja roads attempt 4 (overpass.private.coffee): HTTP 500: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>Internal Server Error</h1>
+
+  ✗ ikeja roads attempt 5 (maps.mail.ru): HTTP 504: <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/x
+  ✗ ikeja roads attempt 6 (overpass.private.coffee): HTTP 500: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>Internal Server Error</h1>
+
+  ✗ ikeja roads attempt 7 (overpass.private.coffee): HTTP 500: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>Internal Server Error</h1>
+
+  ✓ ikeja roads via maps.mail.ru: 3542 elements, 2.2 MB, 44s
+  ✗ ikeja rail attempt 1 (overpass.private.coffee): HTTP 500: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>Internal Server Error</h1>
+
+  ✓ ikeja rail via maps.mail.ru: 20 elements, 0.0 MB, 14s
+  ✓ ikeja water via overpass.private.coffee: 9 elements, 0.0 MB, 1s
+  ✗ ikeja landuse attempt 1 (overpass.private.coffee): HTTP 500: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>Internal Server Error</h1>
+
+  ✓ ikeja landuse via maps.mail.ru: 371 elements, 0.6 MB, 16s
+  ✗ ikeja barriers attempt 1 (overpass.private.coffee): HTTP 500: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>Internal Server Error</h1>
+
+  ✗ ikeja barriers attempt 2 (maps.mail.ru): HTTP 504: <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/x
+  ✗ ikeja barriers attempt 3 (overpass.private.coffee): HTTP 500: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>Internal Server Error</h1>
+
+  ✗ ikeja barriers attempt 4 (overpass.private.coffee): HTTP 500: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>Internal Server Error</h1>
+
+  ✗ ikeja barriers attempt 5 (maps.mail.ru): HTTP 504: <html>
+<head><title>504 Gateway Time-out</title></head>
+<body>
+<center><h1>504 Gateway Time-out</h1></center>
+<hr><center>nginx</center>
+</body>
+</html>
+
+  ✗ ikeja barriers attempt 6 (overpass.private.coffee): HTTP 500: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>Internal Server Error</h1>
+
+  ✓ ikeja barriers via overpass.private.coffee: 85 elements, 0.0 MB, 4s
+  ✗ ikeja pois attempt 1 (overpass.private.coffee): HTTP 500: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>Internal Server Error</h1>
+
+  ✗ ikeja pois attempt 2 (maps.mail.ru): HTTP 504: <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/x
+  ✗ ikeja pois attempt 3 (overpass.private.coffee): HTTP 500: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>Internal Server Error</h1>
+
+  ✗ ikeja pois attempt 4 (overpass.private.coffee): HTTP 500: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>Internal Server Error</h1>
+
+  ✗ ikeja pois attempt 5 (maps.mail.ru): HTTP 504: <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/x
+  ✗ ikeja pois attempt 6 (overpass.private.coffee): HTTP 500: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>Internal Server Error</h1>
+
+  ✓ ikeja pois via overpass.private.coffee: 315 elements, 0.1 MB, 1s
+  ✗ ikeja buildings tile 1/4 attempt 1 (overpass.private.coffee): HTTP 500: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>Internal Server Error</h1>
+
+  ✓ ikeja buildings tile 1/4 via maps.mail.ru: 4390 elements, 2.6 MB, 19s
+  ✓ ikeja buildings tile 2/4 via overpass.private.coffee: 1083 elements, 0.7 MB, 1s
+  ✗ ikeja buildings tile 3/4 attempt 1 (overpass.private.coffee): HTTP 500: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>Internal Server Error</h1>
+
+  ✗ ikeja buildings tile 3/4 attempt 2 (maps.mail.ru): HTTP 504: <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/x
+  ✗ ikeja buildings tile 3/4 attempt 3 (overpass.private.coffee): HTTP 500: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>Internal Server Error</h1>
+
+  ✗ ikeja buildings tile 3/4 attempt 4 (overpass.private.coffee): HTTP 500: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>Internal Server Error</h1>
+
+  ✓ ikeja buildings tile 3/4 via maps.mail.ru: 4895 elements, 2.9 MB, 18s
+  ✗ ikeja buildings tile 4/4 attempt 1 (overpass.private.coffee): HTTP 500: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>Internal Server Error</h1>
+
+  ✓ ikeja buildings tile 4/4 via maps.mail.ru: 512 elements, 0.4 MB, 15s
+  ✗ places attempt 1 (overpass.private.coffee): HTTP 500: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>Internal Server Error</h1>
+
+  ✗ places attempt 2 (maps.mail.ru): HTTP 504: <html>
+<head><title>504 Gateway Time-out</title></head>
+<body>
+<center><h1>504 Gateway Time-out</h1></center>
+<hr><center>nginx</center>
+</body>
+</html>
+
+  ✗ places attempt 3 (overpass.private.coffee): HTTP 500: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>Internal Server Error</h1>
+
+  ✗ places attempt 4 (overpass.private.coffee): HTTP 500: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>Internal Server Error</h1>
+
+  ✓ places via maps.mail.ru: 210 elements, 0.1 MB, 10s
+::notice::OSM export complete — ikeja_roads:3542 ikeja_rail:20 ikeja_water:9 ikeja_landuse:371 ikeja_barriers:85 ikeja_pois:315 ikeja_buildings:10800 places:210
