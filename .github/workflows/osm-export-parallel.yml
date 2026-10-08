@@ -1,0 +1,49 @@
+# Same export as osm-export.yml, split across parallel runners (each runner has its own Overpass quota).
+# Each part is pushed to its own branch osm-raw-<part>; scripts/build_map.py merges split building tiles.
+name: OSM export (parallel)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - part: base
+            args: "--only core --layers roads,rail,water,landuse,barriers,pois,places"
+          - part: b1
+            args: "--only core --layers buildings --tile-range 0:12 --suffix _p1"
+          - part: b2
+            args: "--only core --layers buildings --tile-range 12:24 --suffix _p2"
+          - part: b3
+            args: "--only core --layers buildings --tile-range 24:36 --suffix _p3"
+          - part: ikeja
+            args: "--only ikeja"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Fetch from Overpass
+        run: |
+          mkdir -p out
+          node scripts/fetch-osm.mjs --out out ${{ matrix.args }} 2>&1 | tee out/export-${{ matrix.part }}.log
+          mv out/manifest.json out/manifest-${{ matrix.part }}.json || true
+          ls -la out
+      - name: Push part
+        if: always()
+        run: |
+          cd out
+          git init -b osm-raw-${{ matrix.part }}
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "OSM export part ${{ matrix.part }} — © OpenStreetMap contributors (ODbL)"
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" HEAD:osm-raw-${{ matrix.part }}

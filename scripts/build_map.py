@@ -51,12 +51,23 @@ def ll(x, z):
 
 
 def load(raw, name):
-    p = os.path.join(raw, name + '.json.gz')
-    if not os.path.exists(p):
+    """Load an export; also merges split parts such as core_buildings_p1.json.gz, core_buildings_p2..."""
+    paths = [os.path.join(raw, name + '.json.gz')] if os.path.exists(os.path.join(raw, name + '.json.gz')) else []
+    paths += sorted(os.path.join(raw, f) for f in os.listdir(raw) if f.startswith(name + '_p') and f.endswith('.json.gz'))
+    if not paths:
         print('  (missing', name, ')')
         return {'elements': []}
-    with gzip.open(p, 'rt') as f:
-        return json.load(f)
+    out, seen = {'elements': []}, set()
+    for p in paths:
+        with gzip.open(p, 'rt') as f:
+            j = json.load(f)
+        out['osm3s'] = j.get('osm3s')
+        for el in j['elements']:
+            k = (el['type'], el['id'])
+            if k not in seen:
+                seen.add(k)
+                out['elements'].append(el)
+    return out
 
 
 def seed_of(*parts):
@@ -539,8 +550,9 @@ def build_roads(raw, regions, out, chunks, report, names):
             except ValueError:
                 layer = 1 if br else 0
             w, oneway = road_width(t, cls)
+            unpaved = t.get('surface') in ('unpaved', 'dirt', 'ground', 'sand', 'gravel', 'compacted', 'earth', 'mud', 'fine_gravel', 'laterite')
             ways.append({'id': el['id'], 'cls': cls, 'hw': hw, 'pts': pts, 'nodes': ns, 'bridge': br, 'layer': layer, 'w': w,
-                         'oneway': oneway, 'name': t.get('name') or t.get('ref') or '', 'link': hw.endswith('_link')})
+                         'oneway': oneway, 'name': t.get('name') or t.get('ref') or '', 'link': hw.endswith('_link'), 'unpaved': unpaved})
             for n in ns:
                 node_use[n][0 if br else 1] += 1
     print(f'  roads: {len(ways)} ways')
@@ -561,7 +573,7 @@ def build_roads(raw, regions, out, chunks, report, names):
             simp = [pts[i] for i in sorted(keep_idx)]
             hsimp = [hs[i] for i in sorted(keep_idx)]
         ni = names.idx(w['name'])
-        flags = (1 if w['bridge'] else 0) | (2 if w['oneway'] else 0) | (4 if w['link'] else 0)
+        flags = (1 if w['bridge'] else 0) | (2 if w['oneway'] else 0) | (4 if w['link'] else 0) | (8 if w['unpaved'] else 0)
         if w['cls'] in MAJOR:
             rec = [w['cls'], int(round(w['w'] * 10)), ni, flags, len(simp)]
             for x, z in simp:
@@ -830,9 +842,9 @@ def build_barriers(raw, regions, chunks):
 def build_trees(regions, landuse, terrain_water, chunks, raw):
     """Scatter trees on vegetated landuse cells (and OSM natural=tree nodes), away from buildings and roads."""
     n = 0
-    dens = {LU_CLASSES['grass']: 0.012, LU_CLASSES['wood']: 0.05, LU_CLASSES['wetland']: 0.03, LU_CLASSES['residential']: 0.0016,
-            LU_CLASSES['school']: 0.004, LU_CLASSES['farmland']: 0.008, LU_CLASSES['cemetery']: 0.01, LU_CLASSES['urban']: 0.0007,
-            LU_CLASSES['military']: 0.006}
+    dens = {LU_CLASSES['grass']: 0.01, LU_CLASSES['wood']: 0.04, LU_CLASSES['wetland']: 0.022, LU_CLASSES['residential']: 0.0011,
+            LU_CLASSES['school']: 0.003, LU_CLASSES['farmland']: 0.006, LU_CLASSES['cemetery']: 0.008, LU_CLASSES['urban']: 0.00028,
+            LU_CLASSES['military']: 0.005}
     for region in regions:
         if region not in landuse:
             continue
@@ -872,7 +884,7 @@ def build_trees(regions, landuse, terrain_water, chunks, raw):
             for _ in range(int(cnt[i, j])):
                 x = g.x0 + (j + rng.random()) * g.res
                 z = g.z0 + (i + rng.random()) * g.res
-                kind = 0 if lu[i, j] in (LU_CLASSES['wetland'],) else int(rng.integers(0, 3))
+                kind = 3 if lu[i, j] in (LU_CLASSES['wetland'],) else int(rng.integers(0, 3))
                 ck = (math.floor(x / CHUNK), math.floor(z / CHUNK))
                 chunks[ck]['trees'] += [int(round((x - ck[0] * CHUNK) * 10)), int(round((z - ck[1] * CHUNK) * 10)), kind]
                 n += 1

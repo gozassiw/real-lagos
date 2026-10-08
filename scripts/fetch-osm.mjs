@@ -149,7 +149,11 @@ async function main() {
       if (layer === 'places') continue;
       try {
       if (layer === 'buildings') {
-        const ts = tiles(b, 0.03);
+        let ts = tiles(b, 0.03);
+        if (args['tile-range']) {
+          const [a0, a1] = String(args['tile-range']).split(':').map(Number);
+          ts = ts.slice(a0, a1);
+        }
         const merged = { elements: [], osm3s: null };
         const seen = new Set();
         for (let i = 0; i < ts.length; i++) {
@@ -165,8 +169,9 @@ async function main() {
           }
           await sleep(2000);
         }
-        await save(`${area}_buildings`, merged);
-        manifest.files[`${area}_buildings`] = { elements: merged.elements.length, osm_base: merged.osm3s?.timestamp_osm_base };
+        const suffix = args.suffix ? String(args.suffix) : '';
+        await save(`${area}_buildings${suffix}`, merged);
+        manifest.files[`${area}_buildings${suffix}`] = { elements: merged.elements.length, osm_base: merged.osm3s?.timestamp_osm_base };
         continue;
       }
       const j = await overpass(LAYERS[layer](b), `${area} ${layer}`);
