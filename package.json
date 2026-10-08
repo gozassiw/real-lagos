@@ -1,0 +1,32 @@
+{
+  "name": "real-lagos",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "description": "Playable 3D browser life-sim prototype built on real OpenStreetMap geography of Lagos, Nigeria.",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "typecheck": "tsc -b",
+    "preview": "vite preview",
+    "osm:fetch": "node scripts/fetch-osm.mjs --out osm-raw",
+    "map:build": "python3 scripts/build_map.py --raw osm-raw --out public/data/lagos"
+  },
+  "dependencies": {
+    "@react-three/drei": "latest",
+    "@react-three/fiber": "latest",
+    "@react-three/rapier": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "three": "latest",
+    "zustand": "latest"
+  },
+  "devDependencies": {
+    "@types/react": "latest",
+    "@types/react-dom": "latest",
+    "@types/three": "latest",
+    "@vitejs/plugin-react": "latest",
+    "typescript": "latest",
+    "vite": "latest"
+  }
+}
