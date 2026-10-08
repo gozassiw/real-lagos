@@ -54,13 +54,13 @@ SPOTS = [
     dict(id='lekki-food', kind='eat', zone='Lekki Phase 1', label='Tantalizers', anchor=('Tantalizers', 'node/1523336782', None, None), search=(r'tantalizers', r'amenity', 6.4480, 3.4710, 1200), price=2000, meal='Jollof rice & plantain', hunger=50),
     dict(id='stop-lekki', kind='danfo', zone='Lekki Phase 1', label='Lekki toll gate bus stop', anchor=('Admiralty Toll Plaza', 'way/216689333', 6.435933, 3.447211)),
     # ---- Ikeja (separate district chunk)
-    dict(id='computer-village', kind='shop', zone='Ikeja', label='Computer Village', anchor=(None, None, None, None), search=(r'computer village|otigba|ola ayeni|pepple', r'.', 6.5950, 3.3415, 1200), items=[
+    dict(id='computer-village', kind='shop', zone='Ikeja', label='Computer Village', anchor=('Otigba Street / Computer Village', 'way/134404813', 6.594116, 3.341905), items=[
         dict(id='earbuds', name='Wireless earbuds', price=3500),
         dict(id='powerbank', name='Power bank 20,000 mAh', price=6000),
         dict(id='screen-guard', name='Screen guard (fixed)', price=1000),
         dict(id='sim', name='New SIM card', price=500),
     ]),
-    dict(id='stop-ikeja', kind='danfo', zone='Ikeja', label='Ikeja Along bus stop', anchor=(None, None, None, None), search=(r'ikeja|along|allen|obafemi', r'bus|public_transport|highway', 6.6040, 3.3500, 1500)),
+    dict(id='stop-ikeja', kind='danfo', zone='Ikeja', label='Ikeja Along bus stop', anchor=('Ikeja Along', 'node/9127712617', 6.598683, 3.334536)),
 ]
 
 

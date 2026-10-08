@@ -3,3 +3,4 @@ dist
 osm-raw
 *.local
 .DS_Store
+*.tsbuildinfo

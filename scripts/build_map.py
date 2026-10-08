@@ -281,6 +281,25 @@ def build_terrain(raw, region, out, report):
         small = np.isin(lab, np.where(sizes < 120 / FINE_RES ** 2)[0] + 1)
         is_water |= small
 
+    # reference GeoJSON (lat/lon) of the OSM water features used above
+    feats = []
+    for el in water['elements']:
+        t = el.get('tags', {})
+        if t.get('natural') == 'coastline' and el['type'] == 'way':
+            g = dp_simplify(geom_xz(el.get('geometry', [])), 3.0)
+            feats.append({'type': 'Feature', 'properties': {'natural': 'coastline', 'osm_id': el['id']},
+                          'geometry': {'type': 'LineString', 'coordinates': [[round(ll(x, z)[1], 6), round(ll(x, z)[0], 6)] for x, z in g]}})
+            continue
+        for outer, inners in element_polygons(el):
+            rings = [dp_simplify(outer, 3.0)] + [dp_simplify(r, 3.0) for r in inners]
+            if len(rings[0]) < 4:
+                continue
+            feats.append({'type': 'Feature', 'properties': {k: t[k] for k in ('natural', 'water', 'waterway', 'name', 'landuse') if k in t} | {'osm_id': f"{el['type']}/{el['id']}"},
+                          'geometry': {'type': 'Polygon', 'coordinates': [[[round(ll(x, z)[1], 6), round(ll(x, z)[0], 6)] for x, z in r] for r in rings]}})
+    os.makedirs(os.path.join(out, 'geo'), exist_ok=True)
+    with open(os.path.join(out, 'geo', f'water_{region}.geojson'), 'w') as f:
+        json.dump({'type': 'FeatureCollection', 'attribution': '© OpenStreetMap contributors (ODbL)', 'features': feats}, f, separators=(',', ':'))
+
     # 4. signed distance (metres): + land, - water
     d_land = ndimage.distance_transform_edt(~is_water) * FINE_RES
     d_water = ndimage.distance_transform_edt(is_water) * FINE_RES
@@ -1028,7 +1047,8 @@ def main():
         'attribution': 'Map data © OpenStreetMap contributors',
         'attributionUrl': 'https://www.openstreetmap.org/copyright',
         'license': 'ODbL 1.0',
-        'osmBase': next((v.get('osm_base') for v in manifest_raw.get('files', {}).values() if v.get('osm_base')), None),
+        'osmBase': max((v.get('osm_base') for v in manifest_raw.get('files', {}).values() if v.get('osm_base')), default=None),
+        'osmOldest': min((v.get('osm_base') for v in manifest_raw.get('files', {}).values() if v.get('osm_base')), default=None),
         'origin': {'lat': ORIGIN_LAT, 'lon': ORIGIN_LON, 'mPerDegLat': M_LAT, 'mPerDegLon': M_LON, 'axes': '+x east, -z north, metres'},
         'chunkSize': CHUNK,
         'regions': region_bounds,

@@ -1,13 +1,14 @@
-# Build the game and publish it to GitHub Pages on every push to main.
+# Build the game, publish it to GitHub Pages, then smoke-test the live URL in a mobile browser.
 name: Deploy to GitHub Pages
 
 on:
   push:
     branches: [main]
+    paths-ignore: ['README.md', 'scripts/**', '.github/workflows/osm-*.yml', '.github/workflows/devdeps.yml', '.github/workflows/overpass-probe.yml']
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 
@@ -30,15 +31,49 @@ jobs:
         env:
           BASE_PATH: /${{ github.event.repository.name }}/
       - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+        continue-on-error: true
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
+
   deploy:
     needs: build
     runs-on: ubuntu-latest
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
+    outputs:
+      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+
+  verify:
+    needs: deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install Playwright
+        run: |
+          npm i --no-save --no-package-lock playwright@1
+          npx playwright install --with-deps chromium
+      - name: Smoke test the live URL (iPhone emulation + desktop)
+        env:
+          URL: ${{ needs.deploy.outputs.url }}
+        run: node scripts/qa/smoke.mjs "$URL" qa-out
+      - name: Publish screenshots to the qa branch
+        if: always()
+        run: |
+          mkdir -p qa-out && cd qa-out
+          git init -b qa
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "QA run $(date -u +%Y-%m-%dT%H:%MZ) for ${{ github.sha }}" || exit 0
+          git push -f "https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git" HEAD:qa
