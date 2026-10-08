@@ -1,0 +1,15 @@
+Area core 6.395,3.325,6.555,3.505
+  ✗ core buildings tile 13/36 attempt 1 (maps.mail.ru): HTTP 504: <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/x
+  ✗ core buildings tile 13/36 attempt 2 (overpass.private.coffee): HTTP 500: <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<title>500 Internal Server Error</title>
+</head><body>
+<h1>Internal Server Error</h1>
+
+  ✓ core buildings tile 13/36 via maps.mail.ru: 28831 elements, 16.3 MB, 17s
+  ✓ core buildings tile 14/36 via maps.mail.ru: 11759 elements, 6.8 MB, 20s
+  ✓ core buildings tile 15/36 via maps.mail.ru: 5532 elements, 3.2 MB, 15s
+::notice::OSM export complete — core_buildings_t12:28831 core_buildings_t13:11759 core_buildings_t14:5532
