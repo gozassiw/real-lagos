@@ -10,13 +10,26 @@ export interface Rig {
 
 let rigPromise: Promise<Rig> | null = null;
 
+/** Some hosts don't serve .glb files; for those the same bytes ship base64-encoded as `<url>.json` ({ "glb": "…" }). */
+async function loadGlbFromJson(url: string) {
+  const r = await fetch(`${url}.json`);
+  if (!r.ok) throw new Error(`rig: HTTP ${r.status}`);
+  const bin = atob(((await r.json()) as { glb: string }).glb);
+  const bytes = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+  return new GLTFLoader().parseAsync(bytes.buffer, '');
+}
+
 export function loadRig(url: string): Promise<Rig> {
   if (!rigPromise) {
-    rigPromise = new GLTFLoader().loadAsync(url).then((g) => {
-      const clips: Record<string, THREE.AnimationClip> = {};
-      for (const c of g.animations) clips[c.name] = c;
-      return { scene: g.scene, clips };
-    });
+    rigPromise = new GLTFLoader()
+      .loadAsync(url)
+      .catch(() => loadGlbFromJson(url))
+      .then((g) => {
+        const clips: Record<string, THREE.AnimationClip> = {};
+        for (const c of g.animations) clips[c.name] = c;
+        return { scene: g.scene, clips };
+      });
   }
   return rigPromise;
 }
