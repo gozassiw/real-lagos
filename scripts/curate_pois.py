@@ -67,16 +67,30 @@ SPOTS = [
 ]
 
 
+_packs = {}
+
+
+def read_chunk(data, cx, cz):
+    """A chunk from chunks/cx_cz.json, or from the 4x4 pack file that holds it (see pack_chunks.py)."""
+    p = os.path.join(data, 'chunks', f'{cx}_{cz}.json')
+    if os.path.exists(p):
+        return json.load(open(p))
+    key = (math.floor(cx / 4), math.floor(cz / 4))
+    if key not in _packs:
+        pp = os.path.join(data, 'packs', f'p{key[0]}_{key[1]}.json')
+        _packs[key] = json.load(open(pp)) if os.path.exists(pp) else {}
+    return _packs[key].get(f'{cx},{cz}')
+
+
 def load_buildings_near(data, x, z, radius):
     out = []
     c0 = (math.floor((x - radius) / CHUNK), math.floor((z - radius) / CHUNK))
     c1 = (math.floor((x + radius) / CHUNK), math.floor((z + radius) / CHUNK))
     for cx in range(c0[0], c1[0] + 1):
         for cz in range(c0[1], c1[1] + 1):
-            p = os.path.join(data, 'chunks', f'{cx}_{cz}.json')
-            if not os.path.exists(p):
+            j = read_chunk(data, cx, cz)
+            if j is None:
                 continue
-            j = json.load(open(p))
             ox, oz = cx * CHUNK, cz * CHUNK
             for rec in j['b']:
                 n = rec[5]

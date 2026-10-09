@@ -344,7 +344,10 @@ export function LagosMap() {
         if (st.pending.size >= 3) break;
         if (st.chunks.has(w.key) || st.pending.has(w.key)) continue;
         st.pending.add(w.key);
-        st.worker.postMessage({ key: w.key, url: `${new URL(DATA_BASE, location.href).href}chunks/${w.cx}_${w.cz}.json`, ox: w.cx * C, oz: w.cz * C });
+        const P = mapData.manifest.chunkPack;
+        const base = new URL(DATA_BASE, location.href).href;
+        const url = P ? `${base}packs/p${Math.floor(w.cx / P)}_${Math.floor(w.cz / P)}.json` : `${base}chunks/${w.cx}_${w.cz}.json`;
+        st.worker.postMessage({ key: w.key, url, pack: !!P, ox: w.cx * C, oz: w.cz * C });
       }
       // unload far chunks, toggle detail + physics
       for (const [k, c] of st.chunks) {

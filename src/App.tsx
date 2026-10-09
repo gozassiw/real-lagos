@@ -65,6 +65,17 @@ import { worldState } from './game/worldState';
   worldState.teleport = { x, z, y };
 };
 
+const PUBLIC_URL = 'https://gozassiw.github.io/real-lagos/';
+
+/** The physics engine (Rapier) is WebAssembly. Some embedded viewers forbid compiling it: say so instead of a blank screen. */
+async function checkWasm() {
+  try {
+    await WebAssembly.instantiate(new Uint8Array([0, 97, 115, 109, 1, 0, 0, 0]));
+  } catch {
+    throw new Error('wasm-blocked');
+  }
+}
+
 export function App() {
   const [phase, setPhase] = useState<'loading' | 'ready' | 'error'>('loading');
   const [progress, setProgress] = useState({ p: 0, label: 'Starting' });
@@ -73,6 +84,7 @@ export function App() {
   useEffect(() => {
     let alive = true;
     Promise.all([
+      checkWasm(),
       mapData.load((p, label) => alive && setProgress({ p, label })),
       loadGameplay(),
       loadRig(`${import.meta.env.BASE_URL}models/rig.glb`),
@@ -133,8 +145,17 @@ export function App() {
       <div className="loading">
         <div className="loading-inner">
           <h1 className="brand">Real Lagos</h1>
-          <p className="loading-err">The map didn’t load: {error}. Check your connection and reload the page.</p>
-          <button className="btn-primary" onClick={() => location.reload()}>Reload</button>
+          {error === 'wasm-blocked' ? (
+            <>
+              <p className="loading-err">This viewer blocks WebAssembly, which the game’s physics needs. Open the game in Safari or Chrome instead.</p>
+              <a className="btn-primary" href={PUBLIC_URL} target="_blank" rel="noreferrer">Open Real Lagos</a>
+            </>
+          ) : (
+            <>
+              <p className="loading-err">The map didn’t load: {error}. Check your connection and reload the page.</p>
+              <button className="btn-primary" onClick={() => location.reload()}>Reload</button>
+            </>
+          )}
         </div>
       </div>
     );

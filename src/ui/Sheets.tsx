@@ -94,6 +94,7 @@ function DanfoSheet({ p }: { p: GamePoi }) {
 
 function SettingsSheet() {
   const s = useGame();
+  const [confirmReset, setConfirmReset] = useState(false);
   const set = (patch: Partial<typeof s.settings>) => s.patch({ settings: { ...s.settings, ...patch } });
   const base = mapData.manifest.osmBase ? new Date(mapData.manifest.osmBase).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }) : '';
   return (
@@ -140,17 +141,27 @@ function SettingsSheet() {
           <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noreferrer">OpenStreetMap contributors</a>, available under the ODbL.
           {base && ` OSM snapshot: ${base}.`} Roads, coastline, lagoon, bridges, buildings and places in this game are generated from that data.
         </p>
-        <button
-          className="btn-danger"
-          onClick={() => {
-            if (confirm('Start over? Your cash, stats and quest progress will be reset.')) {
-              s.reset();
-              location.reload();
-            }
-          }}
-        >
-          Reset progress
-        </button>
+        {confirmReset ? (
+          <div className="confirm-reset" role="alert">
+            <p>Start over? Your cash, stats and quest progress go back to the beginning.</p>
+            <div className="confirm-actions">
+              <button className="btn-ghost" onClick={() => setConfirmReset(false)}>Keep playing</button>
+              <button
+                className="btn-danger"
+                onClick={() => {
+                  s.reset();
+                  location.reload();
+                }}
+              >
+                Start over
+              </button>
+            </div>
+          </div>
+        ) : (
+          <button className="btn-danger" onClick={() => setConfirmReset(true)}>
+            Reset progress
+          </button>
+        )}
       </div>
     </Sheet>
   );

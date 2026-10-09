@@ -20,11 +20,13 @@ game streams at runtime (the game never calls Overpass):
 Coordinates: local metres, +X east, -Z north, origin 6.45N 3.41E (see src/game/map/geoToWorld.ts).
 Map data © OpenStreetMap contributors, ODbL 1.0.
 """
-import argparse, gzip, json, math, os, hashlib, re, time
+import argparse, gzip, json, math, os, hashlib, re, shutil, sys, time
 from collections import defaultdict
 import numpy as np
 from PIL import Image, ImageDraw
 from scipy import ndimage
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import pack_chunks  # noqa: E402
 
 ORIGIN_LAT, ORIGIN_LON = 6.45, 3.41
 R = 6378137.0
@@ -1037,6 +1039,8 @@ def main():
 
     # chunk files
     index = {}
+    shutil.rmtree(os.path.join(a.out, 'packs'), ignore_errors=True)
+    os.makedirs(os.path.join(a.out, 'chunks'), exist_ok=True)
     for f in os.listdir(os.path.join(a.out, 'chunks')):
         os.remove(os.path.join(a.out, 'chunks', f))
     for ck, c in chunks.items():
@@ -1083,6 +1087,7 @@ def main():
     }
     with open(os.path.join(a.out, 'manifest.json'), 'w') as f:
         json.dump(manifest, f, separators=(',', ':'))
+    pack_chunks.pack(a.out)
     total = sum(os.path.getsize(os.path.join(dp, fn)) for dp, _, fns in os.walk(a.out) for fn in fns)
     print(f'done in {time.time() - t0:.0f}s — {len(index)} chunks, {total / 1e6:.1f} MB')
 

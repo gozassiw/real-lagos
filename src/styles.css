@@ -181,6 +181,12 @@ a { color: inherit; }
 .help p, .attrib { font-size: 13.5px; line-height: 1.5; color: var(--muted); margin: 6px 0; }
 .attrib a { color: var(--danfo); }
 .btn-danger { margin-top: 10px; border: 1px solid rgba(210, 70, 46, 0.7); background: transparent; color: #ff9c88; border-radius: 10px; padding: 10px; font-family: var(--font); font-size: 17px; }
+.confirm-reset { margin-top: 10px; border: 1px solid rgba(210, 70, 46, 0.7); border-radius: 10px; padding: 10px 12px; }
+.confirm-reset p { margin: 0 0 8px; font-size: 14px; line-height: 1.4; }
+.confirm-actions { display: flex; gap: 8px; }
+.confirm-actions button { flex: 1; margin: 0; }
+.confirm-actions .btn-danger { background: rgba(210, 70, 46, 0.9); color: var(--chalk); }
+a.btn-primary { display: block; box-sizing: border-box; text-align: center; text-decoration: none; }
 .btn-primary { border: 0; background: var(--danfo); color: var(--asphalt); font-family: var(--font); font-size: 22px; font-weight: 700; border-radius: 12px; padding: 12px 20px; width: 100%; }
 
 /* welcome */

@@ -62,12 +62,12 @@ scripts/
 2. `python3 scripts/build_map.py --raw osm-raw --out public/data/lagos` (needs `numpy scipy pillow`) —
    projects to local metres (origin 6.45°N 3.41°E), simplifies geometry, rasterises the shoreline into a signed
    distance field, computes bridge deck heights, classifies buildings into Lagos facade archetypes and splits
-   everything into 500 m chunks.
+   everything into 500 m chunks, then packs them 4 × 4 into 2 km files (`scripts/pack_chunks.py`).
 3. `python3 scripts/curate_pois.py --data public/data/lagos` — picks the gameplay spots from real OSM features.
 
 Assets in `public/data/lagos`: `manifest.json` (transform, regions, chunk index, OSM timestamp),
 `terrain_*.png` (shoreline distance field), `landuse_*.png`, `roads_major.json`, `rail.json`,
-`chunks/*.json`, `places.json`, `pois.json`, `gameplay.json`, and lat/lon GeoJSON copies in `geo/`.
+`packs/p*_*.json` (map chunks), `places.json`, `pois.json`, `gameplay.json`, and lat/lon GeoJSON copies in `geo/`.
 
 ## Develop
 

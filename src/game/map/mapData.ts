@@ -18,6 +18,8 @@ export interface Manifest {
   landuse: Record<string, RasterInfo>;
   roadNames: string[];
   chunks: Record<string, [number, number, number]>;
+  /** chunks are grouped into packs/p{floor(cx/N)}_{floor(cz/N)}.json, N x N chunks per file */
+  chunkPack?: number;
 }
 
 export interface Road {
