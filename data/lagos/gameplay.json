@@ -1,0 +1,355 @@
+{
+ "spawn": {
+  "x": 3290.3278667114614,
+  "z": 610.5580468896437,
+  "heading": 0.672,
+  "zone": "Ikoyi"
+ },
+ "pois": [
+  {
+   "id": "ikoyi-home",
+   "kind": "home",
+   "zone": "Ikoyi",
+   "name": "Your flat \u00b7 Falomo Close",
+   "place": "Falomo Close (way/129730330)",
+   "x": 3285.97,
+   "z": 605.08,
+   "lat": 6.444565,
+   "lon": 3.439706,
+   "heading": 0.672,
+   "osm": "way/129730330"
+  },
+  {
+   "id": "ikoyi-suya",
+   "kind": "eat",
+   "zone": "Ikoyi",
+   "price": 1500,
+   "meal": "Suya & cold zobo",
+   "hunger": 40,
+   "name": "Glover Court Suya",
+   "place": "Glover Court Suya (node/4946299659)",
+   "x": 2819.13,
+   "z": -236.33,
+   "lat": 6.452123,
+   "lon": 3.435486,
+   "heading": 0.0,
+   "osm": "node/4946299659"
+  },
+  {
+   "id": "stop-bourdillon",
+   "kind": "danfo",
+   "zone": "Ikoyi",
+   "name": "Bourdillon bus stop",
+   "place": "Bourdillon Road stop (platform) (node/5676295240)",
+   "x": 2866.81,
+   "z": 460.18,
+   "lat": 6.445866,
+   "lon": 3.435917,
+   "heading": 0.0,
+   "osm": "node/5676295240"
+  },
+  {
+   "id": "stop-falomo",
+   "kind": "danfo",
+   "zone": "Ikoyi",
+   "name": "Falomo bus stop",
+   "place": "Falomo (bus stop) (node/5661711556)",
+   "x": 1773.71,
+   "z": 621.94,
+   "lat": 6.444413,
+   "lon": 3.426035,
+   "heading": 0.0,
+   "osm": "node/5661711556"
+  },
+  {
+   "id": "stop-obalende",
+   "kind": "danfo",
+   "zone": "Obalende",
+   "name": "Obalende motor park",
+   "place": "Obalende Motor Park (node/4755897332)",
+   "x": -290.25,
+   "z": 40.63,
+   "lat": 6.449635,
+   "lon": 3.407376,
+   "heading": 0.0,
+   "osm": "node/4755897332"
+  },
+  {
+   "id": "vi-office",
+   "kind": "work",
+   "zone": "Victoria Island",
+   "pay": 2000,
+   "energy": 18,
+   "seconds": 4,
+   "name": "Office shift \u00b7 Civic Towers",
+   "place": "Civic Towers (way/531627775)",
+   "x": 2155.43,
+   "z": 1138.36,
+   "lat": 6.439774,
+   "lon": 3.429486,
+   "heading": 0.089,
+   "osm": "way/531627775"
+  },
+  {
+   "id": "stop-civic",
+   "kind": "danfo",
+   "zone": "Victoria Island",
+   "name": "Civic Centre bus stop",
+   "place": "Ozumba Mbadiwe Avenue (None)",
+   "x": 2005.89,
+   "z": 1186.11,
+   "lat": 6.439345,
+   "lon": 3.428134,
+   "heading": 0.0,
+   "osm": null
+  },
+  {
+   "id": "vi-food",
+   "kind": "eat",
+   "zone": "Victoria Island",
+   "price": 1800,
+   "meal": "Jollof rice & chicken",
+   "hunger": 50,
+   "name": "Mama Cass",
+   "place": "Mama Cass (node/1513600883)",
+   "x": 2506.75,
+   "z": 2085.68,
+   "lat": 6.431264,
+   "lon": 3.432662,
+   "heading": 1.632,
+   "osm": "node/1513600883"
+  },
+  {
+   "id": "balogun",
+   "kind": "shop",
+   "zone": "Lagos Island",
+   "items": [
+    {
+     "id": "ankara",
+     "name": "Ankara fabric (6 yards)",
+     "price": 3000
+    },
+    {
+     "id": "charger",
+     "name": "Phone charger",
+     "price": 1500
+    },
+    {
+     "id": "slippers",
+     "name": "Pam slippers",
+     "price": 800
+    },
+    {
+     "id": "aso-oke",
+     "name": "Aso-oke cap",
+     "price": 2500
+    },
+    {
+     "id": "speaker",
+     "name": "Small Bluetooth speaker",
+     "price": 4500
+    }
+   ],
+   "name": "Balogun Market",
+   "place": "Balogun Street (way/215113173)",
+   "x": -2912.05,
+   "z": -640.98,
+   "lat": 6.455758,
+   "lon": 3.383674,
+   "heading": 0.0,
+   "osm": "way/215113173"
+  },
+  {
+   "id": "island-buka",
+   "kind": "eat",
+   "zone": "Lagos Island",
+   "price": 1000,
+   "meal": "Rice & ofada stew",
+   "hunger": 45,
+   "name": "Mama Put buka \u00b7 Idumota",
+   "place": "Idumota (bus stop) (node/2541613435)",
+   "x": -2578.32,
+   "z": -1440.47,
+   "lat": 6.46294,
+   "lon": 3.386691,
+   "heading": 0.0,
+   "osm": "node/2541613435"
+  },
+  {
+   "id": "stop-cms",
+   "kind": "danfo",
+   "zone": "Lagos Island",
+   "name": "CMS bus stop",
+   "place": "Marina/CMS (node/6274484744)",
+   "x": -2227.1,
+   "z": 83.46,
+   "lat": 6.44925,
+   "lon": 3.389866,
+   "heading": 0.0,
+   "osm": "node/6274484744"
+  },
+  {
+   "id": "yaba-hub",
+   "kind": "work",
+   "zone": "Yaba",
+   "pay": 2500,
+   "energy": 20,
+   "seconds": 4.5,
+   "name": "Gig at Co-Creation Hub",
+   "place": "Co-Creation Hub, Nigeria (node/3631633695)",
+   "x": -3556.63,
+   "z": -6028.82,
+   "lat": 6.504158,
+   "lon": 3.377847,
+   "heading": -0.184,
+   "osm": "node/3631633695"
+  },
+  {
+   "id": "yaba-buka",
+   "kind": "eat",
+   "zone": "Yaba",
+   "price": 1200,
+   "meal": "Amala, ewedu & gbegiri",
+   "hunger": 45,
+   "name": "Mama Put buka \u00b7 Tejuosho",
+   "place": "Tejuosho Shopping Centre (way/671850898)",
+   "x": -4444.6,
+   "z": -6474.69,
+   "lat": 6.508163,
+   "lon": 3.369819,
+   "heading": 1.782,
+   "osm": "way/671850898"
+  },
+  {
+   "id": "stop-yaba",
+   "kind": "danfo",
+   "zone": "Yaba",
+   "name": "Yaba bus terminal",
+   "place": "Yaba Bus Terminal (way/707609369)",
+   "x": -4336.21,
+   "z": -6769.89,
+   "lat": 6.510815,
+   "lon": 3.370799,
+   "heading": 2.729,
+   "osm": "way/707609369"
+  },
+  {
+   "id": "stop-surulere",
+   "kind": "danfo",
+   "zone": "Surulere",
+   "name": "Stadium bus stop",
+   "place": "Teslim Balogun Stadium (way/1434311438)",
+   "x": -5366.83,
+   "z": -5504.24,
+   "lat": 6.499445,
+   "lon": 3.361482,
+   "heading": 1.22,
+   "osm": "way/1434311438"
+  },
+  {
+   "id": "lekki-lounge",
+   "kind": "social",
+   "zone": "Lekki Phase 1",
+   "price": 1000,
+   "name": "Medusa Lounge",
+   "place": "MEDUSA LAGOS (bar) (way/996863575)",
+   "x": 5260.09,
+   "z": 287.42,
+   "lat": 6.447418,
+   "lon": 3.457553,
+   "heading": 0.467,
+   "osm": "way/996863575"
+  },
+  {
+   "id": "lekki-food",
+   "kind": "eat",
+   "zone": "Lekki Phase 1",
+   "price": 1800,
+   "meal": "Amala, gbegiri & ewedu",
+   "hunger": 50,
+   "name": "Amala Sky",
+   "place": "Amala Sky Lagos (node/9685011127)",
+   "x": 5290.48,
+   "z": 478.74,
+   "lat": 6.445699,
+   "lon": 3.457828,
+   "heading": 0.46,
+   "osm": "node/9685011127"
+  },
+  {
+   "id": "stop-lekki",
+   "kind": "danfo",
+   "zone": "Lekki Phase 1",
+   "name": "Admiralty Way bus stop",
+   "place": "Admiralty Way (way/216882041)",
+   "x": 5351.88,
+   "z": 470.21,
+   "lat": 6.445776,
+   "lon": 3.458383,
+   "heading": 0.0,
+   "osm": "way/216882041"
+  },
+  {
+   "id": "stop-tollgate",
+   "kind": "danfo",
+   "zone": "Lekki toll gate",
+   "name": "Lekki toll gate bus stop",
+   "place": "Admiralty Toll Plaza (way/216689333)",
+   "x": 4105.88,
+   "z": 1568.44,
+   "lat": 6.43591,
+   "lon": 3.447119,
+   "heading": -1.33,
+   "osm": "way/216689333"
+  },
+  {
+   "id": "computer-village",
+   "kind": "shop",
+   "zone": "Ikeja",
+   "items": [
+    {
+     "id": "earbuds",
+     "name": "Wireless earbuds",
+     "price": 3500
+    },
+    {
+     "id": "powerbank",
+     "name": "Power bank 20,000 mAh",
+     "price": 6000
+    },
+    {
+     "id": "screen-guard",
+     "name": "Screen guard (fixed)",
+     "price": 1000
+    },
+    {
+     "id": "sim",
+     "name": "New SIM card",
+     "price": 500
+    }
+   ],
+   "name": "Computer Village",
+   "place": "Otigba Street / Computer Village (way/134404813)",
+   "x": -7532.32,
+   "z": -16042.92,
+   "lat": 6.594116,
+   "lon": 3.341905,
+   "heading": 0.0,
+   "osm": "way/134404813"
+  },
+  {
+   "id": "stop-ikeja",
+   "kind": "danfo",
+   "zone": "Ikeja",
+   "name": "Ikeja Along bus stop",
+   "place": "Ikeja Along (node/9127712617)",
+   "x": -8347.44,
+   "z": -16551.32,
+   "lat": 6.598683,
+   "lon": 3.334536,
+   "heading": 0.0,
+   "osm": "node/9127712617"
+  }
+ ],
+ "attribution": "Positions from OpenStreetMap features \u00a9 OpenStreetMap contributors (ODbL)"
+}
